@@ -1,0 +1,377 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nạp thẻ game</title>
+    <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="DoAnGame.css">
+</head>
+<body>
+    <header>
+        <div class="nav-top">
+            <div class="nav-left">
+                <div class="logo-box"></div>
+                <span class="logo-text">EGSP</span>
+                <div class="nav-divider"></div>
+                <div class="hamburger" id="hamburgerBtn">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="dropdown" id="navDropdown">
+                    <div class="dd-section">
+                        <div class="dd-label">Trò chơi</div>
+                        <a class="dd-item">Liên Quân Mobile</a>
+                        <a class="dd-item">Free Fire</a>
+                        <a class="dd-item">FC Online VN</a>
+                        <a class="dd-item">Delta Force</a>
+                    </div>
+                    <div class="dd-section">
+                        <div class="dd-label">Tài khoản</div>
+                        <a class="dd-item">Đăng nhập</a>
+                        <a class="dd-item">Lịch sử giao dịch</a>
+                    </div>
+                    <div class="dd-section">
+                        <div class="dd-label">Hỗ trợ</div>
+                        <a class="dd-item">Hướng dẫn nạp thẻ</a>
+                        <a class="dd-item">Liên hệ hỗ trợ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="avatar" id="userAvatar" title="Profile"></div>
+                <div id="userMenu" class="user-menu">
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Chiến Binh</div>
+                        <div class="user-level" id="userLevel">Lv. 0</div>
+                    </div>
+                    <hr>
+                    <a href="#" class="menu-item">⚙️ Cài đặt</a>
+                    <a href="#" class="menu-item">💰 Lịch sử nạp thẻ</a>
+                    <a href="#" class="menu-item">🎁 Quà tặng</a>
+                    <hr>
+                    <a href="javascript:logout()" class="menu-item logout">🚪 Đăng xuất</a>
+                </div>
+                <a href="login.html" class="btn-login text-decoration-none d-inline-block" id="loginBtn">Đăng nhập</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="bannerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2"></button>
+            </div>
+            <div class="carousel-inner">
+
+                <div class="carousel-item active" data-bs-interval="5000">
+                    <div class="overlay-gradient"></div>
+                    <img src="images/Huit-info.jpg" alt="HUIT Info Banner" class="d-block w-100 carousel-img">
+                    <div class="carousel-caption banner-huit">
+                        <div class="banner-info">
+                            <h2 class="banner-title">Trường Đại học Công Thương TP.HCM</h2>
+                            <p class="banner-sub">Website Nạp Thẻ Game & Cộng Đồng GameHub</p>
+                        </div>
+                        <div class="banner-logo">
+                            <div class="huit-box">HUIT</div>
+                            <div class="huit-name">Khoa Công Nghệ Thông Tin</div>
+                            <a class="huit-link-btn" href="https://huit.edu.vn/" target="_blank">
+                                Visit HUIT <i class="fas fa-external-link-alt ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="carousel-item" data-bs-interval="5000">
+                    <div class="overlay-gradient"></div>
+                    <img src="images/banner2.jpg" alt="Game Hub Community" class="d-block w-100 carousel-img">
+                    <div class="carousel-caption banner-huit">
+                        <div class="banner-info">
+                            <h2 class="banner-title">Không Gian Gaming Đỉnh Cao</h2>
+                            <p class="banner-sub">Cập nhật tin tức, đánh giá và kết nối game thủ</p>
+                        </div>
+                        <div class="banner-logo">
+                            <div class="huit-box tech">HUB</div>
+                            <div class="huit-name">Khám Phá Ngay</div>
+                            <a class="huit-link-btn" href="games.html">Xem Kho Game</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item" data-bs-interval="5000">
+                    <div class="overlay-gradient"></div>
+                    <img src="images/banner3.jpg" alt="Top Up Service" class="d-block w-100 carousel-img">
+                    <div class="carousel-caption banner-huit">
+                        <div class="banner-info">
+                            <h2 class="banner-title">Dịch Vụ Nạp Thẻ Tự Động</h2>
+                            <p class="banner-sub">An toàn - Uy tín - Chiết khấu cao cho sinh viên</p>
+                        </div>
+                        <div class="banner-logo">
+                            <div class="huit-box shop">$</div>
+                            <div class="huit-name">Hệ Thống Nạp Thẻ</div>
+                            <a class="huit-link-btn" href="#topup">Nạp Thẻ Ngay</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+        </div>
+
+        <div class="card">
+            <div class="card-title">Lựa chọn trò chơi</div>
+            <div class="game-list">
+                <div class="game-item active">
+                    <div class="game-icon">
+                        <img src="images/lienquan.jpg" alt="Liên quân" />
+                    </div>
+                    <span>Liên Quân Mobile</span>
+                </div>
+                <div class="game-item">
+                    <div class="game-icon">
+                        <img src="images/freefire.jpg" alt="Liên quân" />
+                    </div>
+                    <span>Free Fire</span>
+                </div>
+                <div class="game-item">
+                    <div class="game-icon">
+                        <img src="images/fconl.jpg" alt="Liên quân" />
+                    </div>
+                    <span>FC Online VN</span>
+                </div>
+                <div class="game-item">
+                    <div class="game-icon">
+                        <img src="images/deltaforce.jpg" alt="Liên quân" />
+                    </div>
+                    <span>Delta Force</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="sel-banner">
+            <div class="sel-icon">
+                <img class="game-icon" src="images/lienquan.jpg" />
+            </div>
+            <div>
+                <div class="sel-name" id="selGameName">Liên Quân Mobile</div>
+                <span class="sel-badge">Thanh toán an toàn 100%</span>
+            </div>
+            <a class="sel-link" href="">→ Xem thêm</a>
+        </div>
+
+
+        <div class="body-layout">
+
+
+            <div class="left-col">
+
+
+                <div class="card">
+                    <div class="card-title"><span class="step">1</span> Đăng nhập</div>
+                    <div class="input-row">
+                        <input type="text" placeholder="Nhập ID / UID của bạn">
+                        <button class="btn-red">Đăng nhập</button>
+                    </div>
+                    <div class="social-row">
+                        <span>Hoặc đăng nhập bằng:</span>
+                        <p class="social-btn"><a href="https://accounts.google.com/v3/signin/identifier?dsh=S690279576%3A1779523998011024&hl=vi&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AWa2PauNown8XSe4cvE1chsNLHhsAMnCXbIuJsxbFik2tzoMM8sY5Bktwp6jRfVbuRNdB6j7ZaYT">GG</a></p>
+                        <p class="social-btn"><a href="login.html">FB</a></p>
+                        <p class="social-btn"><a href="login.html">APP</a></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title"><span class="step">2</span> Mệnh giá nạp</div>
+                    <div class="tab-row">
+                        <button class="tab active">Nạp Online</button>
+                        <button class="tab">Thẻ Garena</button>
+                    </div>
+                    <div class="amount-grid">
+                        <div class="amount-card">
+                            <div class="amount-vnd">10.000 đ</div>
+                            <div class="amount-gem">20 Xu</div>
+                        </div>
+                        <div class="amount-card">
+                            <div class="amount-vnd">20.000 đ</div>
+                            <div class="amount-gem">40 Xu</div>
+                        </div>
+                        <div class="amount-card">
+                            <div class="amount-vnd">50.000 đ</div>
+                            <div class="amount-gem">102 Xu</div>
+                        </div>
+                        <div class="amount-card" >
+                            <div class="amount-vnd">100.000 đ</div>
+                            <div class="amount-gem">204 Xu</div>
+                        </div>
+                        <div class="amount-card">
+                            <div class="amount-vnd">200.000 đ</div>
+                            <div class="amount-gem">408 Xu</div>
+                        </div>
+                        <div class="amount-card" >
+                            <div class="amount-vnd">500.000 đ</div>
+                            <div class="amount-gem">1.020 Xu</div>
+                        </div>
+                        <div class="amount-card" >
+                            <div class="amount-vnd">1.000.000 đ</div>
+                            <div class="amount-gem">2.090 Xu</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="right-col">
+                <div class="card" id="orderCard">
+                    <div class="card-title"><span class="step">3</span> Thông tin đơn hàng</div>
+
+                    <div id="orderEmpty" class="order-empty" style="display:none">Vui lòng chọn mệnh giá nạp</div>
+
+                    <div id="orderDetail">
+                        <div class="order-row"><span>Game</span><strong id="oGame">Liên Quân Mobile</strong></div>
+
+                        <div class="order-row"><span>Mệnh giá</span><strong id="oAmount">10.000 đ</strong></div>
+                        <div class="order-row"><span>Nhận được</span><strong id="oGem">20 Xu</strong></div>
+                        <hr>
+                        <div class="card-title" style="margin-bottom: 10px">Phương thức thanh toán</div>
+                        <div class="pay-list">
+                            <label class="pay-item">
+                                <span>Ví ShopeePay <span class="hot">HOT</span></span>
+                                <input type="radio" name="payment" checked>
+                            </label>
+                            <label class="pay-item">
+                                <span>ZaloPay</span>
+                                <input type="radio" name="payment">
+                            </label>
+                            <label class="pay-item">
+                                <span>Garena Sò</span>
+                                <input type="radio" name="payment">
+                            </label>
+                            <label class="pay-item">
+                                <span>QR Pay</span>
+                                <input type="radio" name="payment">
+                            </label>
+                            <label class="pay-item">
+                                <span>ATM / iBanking</span>
+                                <input type="radio" name="payment">
+                            </label>
+                            <label class="pay-item">
+                                <span>Thẻ tín dụng</span>
+                                <input type="radio" name="payment">
+                            </label>
+                        </div>
+                        <hr>
+                        <div class="total-row">
+                            <span>Tổng thanh toán</span>
+                            <strong class="total-val" id="oTotal">10.000 VND</strong>
+                        </div>
+                        <p class="terms">Bằng việc nhấn "Thanh toán ngay", bạn đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a>.</p>
+                        <button class="btn-pay">Thanh toán ngay</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card">
+            <div class="card-title">Các trang nạp khác</div>
+            <div class="other-grid">
+                <div class="other-card">
+                    <a href="#">
+                        <div class="other-img">Free Fire</div>
+                        <div class="other-info">
+                            <div class="other-sub">Garena</div>
+                            <div class="other-name">Nạp Xu Free Fire</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="other-card">
+                    <a href="#">
+                        <div class="other-img">FC Online VN</div>
+                        <div class="other-info">
+                            <div class="other-sub">EA Sports</div>
+                            <div class="other-name">Nạp Cash FC Online</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="other-card">
+                    <a href="#">
+                        <div class="other-img">Delta Force</div>
+                        <div class="other-info">
+                            <div class="other-sub">TiMi Studio</div>
+                            <div class="other-name">Nạp Gold Delta Force</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="other-card">
+                    <a href="#">
+                        <div class="other-img">Nạp Sò</div>
+                        <div class="other-info">
+                            <div class="other-sub">Garena</div>
+                            <div class="other-name">Đổi Sò nhận quà</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-box small"></div>
+                        <span class="logo-text">EGSP</span>
+                    </div>
+                    <p>Trung tâm nạp thẻ game chính thức của EGSP Việt Nam. Thanh toán an toàn, nhận ngay trong vài giây.</p>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Trò chơi</div>
+                    <a href="#">Liên Quân Mobile</a>
+                    <a href="#">Free Fire</a>
+                    <a href="#">FC Online VN</a>
+                    <a href="#">Delta Force</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Hỗ trợ</div>
+                    <a href="#">Hướng dẫn nạp thẻ</a>
+                    <a href="#">Câu hỏi thường gặp</a>
+                    <a href="#">Liên hệ hỗ trợ</a>
+                    <a href="#">Lịch sử giao dịch</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">Pháp lý</div>
+                    <a href="#">Điều khoản sử dụng</a>
+                    <a href="#">Chính sách bảo mật</a>
+                    <a href="#">Chính sách hoàn tiền</a>
+                </div>
+            </div>
+            <hr>
+            <div class="footer-bottom">
+                <span>© 2026 Game Online · Nạp game uy tín </span>
+                <span>HUIT — Ho Chi Minh City University of Industry and Trade</span>
+            </div>
+        </div>
+    </footer>
+    <script src="../bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="DoAnGame.js"></script>
+</body>
+</html>

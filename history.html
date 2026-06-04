@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lịch sử giao dịch — EGSP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="DoAnGame.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"></div>
+        <span>EGSP</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <a href="login.html" class="btn-login">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Đăng nhập
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="container" style="padding-top:24px">
+
+  <!-- PAGE TITLE -->
+  <div class="page-heading">
+    <h1 class="page-title">Lịch sử giao dịch</h1>
+    <p class="page-sub">Tất cả các giao dịch nạp thẻ của bạn</p>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="card filter-bar">
+    <div class="filter-group">
+      <label class="field-label" style="margin-bottom:4px">Tìm kiếm</label>
+      <div class="field-wrap">
+        <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="field-input" placeholder="Mã GD, tên game..." />
+      </div>
+    </div>
+    <div class="filter-group">
+      <label class="field-label" style="margin-bottom:4px">Trạng thái</label>
+      <select class="field-input select-input">
+        <option>Tất cả</option>
+        <option>Thành công</option>
+        <option>Đang xử lý</option>
+        <option>Thất bại</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label class="field-label" style="margin-bottom:4px">Thời gian</label>
+      <select class="field-input select-input">
+        <option>7 ngày gần đây</option>
+        <option>30 ngày gần đây</option>
+        <option>3 tháng gần đây</option>
+        <option>Tất cả</option>
+      </select>
+    </div>
+    <button class="btn-red" style="margin-top:20px;height:40px">Lọc</button>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val">12</div>
+      <div class="stat-label">Giao dịch</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val accent">1.850.000 đ</div>
+      <div class="stat-label">Tổng nạp</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:#22c55e">11</div>
+      <div class="stat-label">Thành công</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:#ef4444">1</div>
+      <div class="stat-label">Thất bại</div>
+    </div>
+  </div>
+
+  <!-- TRANSACTION TABLE -->
+  <div class="card" style="overflow-x:auto;padding:0">
+    <table class="tx-table">
+      <thead>
+        <tr>
+          <th>Mã GD</th>
+          <th>Game</th>
+          <th>Mệnh giá</th>
+          <th>Nhận được</th>
+          <th>Thanh toán</th>
+          <th>Thời gian</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tx-id">#GD240501</td>
+          <td class="tx-game"><span class="game-dot lq"></span>Liên Quân Mobile</td>
+          <td>200.000 đ</td>
+          <td class="accent">408 Xu</td>
+          <td>ShopeePay</td>
+          <td class="tx-time">01/05/2026 14:22</td>
+          <td><span class="badge badge-success">Thành công</span></td>
+        </tr>
+        <tr>
+          <td class="tx-id">#GD240428</td>
+          <td class="tx-game"><span class="game-dot ff"></span>Free Fire</td>
+          <td>100.000 đ</td>
+          <td class="accent">204 Xu</td>
+          <td>ZaloPay</td>
+          <td class="tx-time">28/04/2026 09:10</td>
+          <td><span class="badge badge-success">Thành công</span></td>
+        </tr>
+        <tr>
+          <td class="tx-id">#GD240420</td>
+          <td class="tx-game"><span class="game-dot fc"></span>FC Online VN</td>
+          <td>500.000 đ</td>
+          <td class="accent">1.020 Cash</td>
+          <td>ATM</td>
+          <td class="tx-time">20/04/2026 18:45</td>
+          <td><span class="badge badge-success">Thành công</span></td>
+        </tr>
+        <tr>
+          <td class="tx-id">#GD240415</td>
+          <td class="tx-game"><span class="game-dot df"></span>Delta Force</td>
+          <td>50.000 đ</td>
+          <td class="accent">—</td>
+          <td>QR Pay</td>
+          <td class="tx-time">15/04/2026 11:33</td>
+          <td><span class="badge badge-fail">Thất bại</span></td>
+        </tr>
+        <tr>
+          <td class="tx-id">#GD240410</td>
+          <td class="tx-game"><span class="game-dot lq"></span>Liên Quân Mobile</td>
+          <td>1.000.000 đ</td>
+          <td class="accent">2.090 Xu</td>
+          <td>Visa</td>
+          <td class="tx-time">10/04/2026 20:01</td>
+          <td><span class="badge badge-success">Thành công</span></td>
+        </tr>
+        <tr>
+          <td class="tx-id">#GD240405</td>
+          <td class="tx-game"><span class="game-dot ff"></span>Free Fire</td>
+          <td>20.000 đ</td>
+          <td class="accent">40 Xu</td>
+          <td>ShopeePay</td>
+          <td class="tx-time">05/04/2026 08:17</td>
+          <td><span class="badge badge-pending">Đang xử lý</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination">
+    <button class="page-btn active">1</button>
+    <button class="page-btn">2</button>
+    <button class="page-btn">3</button>
+    <span class="page-dots">...</span>
+    <button class="page-btn">8</button>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:1px solid var(--border);padding-top:16px">
+      <span>© 2026 EGSP · Nạp game uy tín</span>
+      <span>HUIT — Ho Chi Minh City University of Industry and Trade</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
