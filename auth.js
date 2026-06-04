@@ -2,6 +2,40 @@
 // EGSP Gaming Hub - Authentication System
 // ============================================
 
+// Initialize demo accounts in localStorage on first load
+function initializeDemoAccounts() {
+    const existingAccounts = localStorage.getItem('gameAccounts');
+    if (!existingAccounts) {
+        const demoAccounts = [
+            {
+                email: 'player@egsp.com',
+                username: 'gamerpro',
+                password: 'password123',
+                displayName: 'Gamer Pro',
+                level: 45,
+                balance: 250000
+            },
+            {
+                email: 'warrior@egsp.com',
+                username: 'lionkiller',
+                password: 'password123',
+                displayName: 'Lion Killer',
+                level: 52,
+                balance: 520000
+            },
+            {
+                email: 'phoenix@egsp.com',
+                username: 'phoenixfire',
+                password: 'password123',
+                displayName: 'Phoenix Fire',
+                level: 38,
+                balance: 180000
+            }
+        ];
+        localStorage.setItem('gameAccounts', JSON.stringify(demoAccounts));
+    }
+}
+
 // Dữ liệu tài khoản mẫu (Demo)
 const demoAccounts = [
     {
@@ -32,6 +66,9 @@ const demoAccounts = [
 
 // Initialize event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize demo accounts
+    initializeDemoAccounts();
+    
     const loginBtn = document.getElementById('loginBtn');
     const emailInput = document.getElementById('loginEmail');
     const passwordInput = document.getElementById('loginPassword');
@@ -90,8 +127,14 @@ function handleLogin() {
         return;
     }
 
+    // Initialize demo accounts if needed
+    initializeDemoAccounts();
+    
+    // Get all accounts (demo + user-created)
+    const allAccounts = JSON.parse(localStorage.getItem('gameAccounts') || '[]');
+
     // Find account
-    const account = demoAccounts.find(acc => 
+    const account = allAccounts.find(acc => 
         (acc.email === email || acc.username === email) && acc.password === password
     );
 
@@ -113,7 +156,7 @@ function handleLogin() {
 
     // Show success animation
     loginBtn.textContent = '✓ ĐĂNG NHẬP THÀNH CÔNG';
-    loginBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    loginBtn.style.background = 'linear-gradient(135deg, #2d5016 0%, #1f3611 100%)';
     loginBtn.disabled = true;
 
     // Redirect after 1.5 seconds

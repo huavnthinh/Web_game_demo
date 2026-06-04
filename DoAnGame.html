@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nạp thẻ game</title>
-    <link  rel="stylesheet"  href="./bootstrap-5.3.8-dist/css/bootstrap.min.css"/>
-
+    <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="DoAnGame.css">
 </head>
 <body>
@@ -183,15 +182,34 @@
 
                 <div class="card">
                     <div class="card-title"><span class="step">1</span> Đăng nhập</div>
-                    <div class="input-row">
-                        <input type="text" placeholder="Nhập ID / UID của bạn">
-                        <button class="btn-red">Đăng nhập</button>
+
+                    <!-- Hiển thị khi đã đăng nhập -->
+                    <div id="step1LoggedIn" style="display:none">
+                        <div class="logged-user-info">
+                            <div class="logged-user-avatar" id="step1Avatar">G</div>
+                            <div class="logged-user-details">
+                                <div class="logged-user-name" id="step1Name">Gamer Pro</div>
+                                <div class="logged-user-level" id="step1Level">Lv. 45</div>
+                            </div>
+                            <span class="logged-user-status">✓ Đã xác thực</span>
+                        </div>
                     </div>
-                    <div class="social-row">
-                        <span>Hoặc đăng nhập bằng:</span>
-                        <p class="social-btn"><a href="https://accounts.google.com/v3/signin/identifier?dsh=S690279576%3A1779523998011024&hl=vi&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AWa2PauNown8XSe4cvE1chsNLHhsAMnCXbIuJsxbFik2tzoMM8sY5Bktwp6jRfVbuRNdB6j7ZaYT">GG</a></p>
-                        <p class="social-btn"><a href="login.html">FB</a></p>
-                        <p class="social-btn"><a href="login.html">APP</a></p>
+
+                    <!-- Hiển thị khi chưa đăng nhập -->
+                    <div id="step1NotLoggedIn">
+                        <div style="background:rgba(79,70,229,0.05);border:1px solid rgba(79,70,229,0.18);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:13px;color:#475569;line-height:1.5;">
+                            Vui lòng <a href="login.html" style="color:#4f46e5;font-weight:700;">đăng nhập</a> để thực hiện nạp thẻ
+                        </div>
+                        <div class="input-row">
+                            <input type="text" placeholder="Nhập ID / UID của bạn">
+                            <button class="btn-red" onclick="window.location.href='login.html'">Đăng nhập</button>
+                        </div>
+                        <div class="social-row">
+                            <span>Hoặc đăng nhập bằng:</span>
+                            <p class="social-btn"><a href="login.html">GG</a></p>
+                            <p class="social-btn"><a href="login.html">FB</a></p>
+                            <p class="social-btn"><a href="login.html">APP</a></p>
+                        </div>
                     </div>
                 </div>
 
@@ -251,29 +269,29 @@
                         <hr>
                         <div class="card-title" style="margin-bottom: 10px">Phương thức thanh toán</div>
                         <div class="pay-list">
-                            <label class="pay-item">
+                            <label class="pay-item" data-pay-type="qr" data-pay-name="ShopeePay">
                                 <span>Ví ShopeePay <span class="hot">HOT</span></span>
-                                <input type="radio" name="payment" checked>
+                                <input type="radio" name="payment" value="ShopeePay" checked>
                             </label>
-                            <label class="pay-item">
+                            <label class="pay-item" data-pay-type="qr" data-pay-name="ZaloPay">
                                 <span>ZaloPay</span>
-                                <input type="radio" name="payment">
+                                <input type="radio" name="payment" value="ZaloPay">
                             </label>
-                            <label class="pay-item">
+                            <label class="pay-item" data-pay-type="simulate" data-pay-name="Garena Sò">
                                 <span>Garena Sò</span>
-                                <input type="radio" name="payment">
+                                <input type="radio" name="payment" value="Garena Sò">
                             </label>
-                            <label class="pay-item">
+                            <label class="pay-item" data-pay-type="qr" data-pay-name="QR Pay">
                                 <span>QR Pay</span>
-                                <input type="radio" name="payment">
+                                <input type="radio" name="payment" value="QR Pay">
                             </label>
-                            <label class="pay-item">
+                            <label class="pay-item" data-pay-type="card" data-pay-name="ATM / iBanking">
                                 <span>ATM / iBanking</span>
-                                <input type="radio" name="payment">
+                                <input type="radio" name="payment" value="ATM / iBanking">
                             </label>
-                            <label class="pay-item">
+                            <label class="pay-item" data-pay-type="card" data-pay-name="Thẻ tín dụng">
                                 <span>Thẻ tín dụng</span>
-                                <input type="radio" name="payment">
+                                <input type="radio" name="payment" value="Thẻ tín dụng">
                             </label>
                         </div>
                         <hr>
@@ -371,6 +389,72 @@
             </div>
         </div>
     </footer>
+    <!-- ===== PAYMENT MODAL ===== -->
+    <div class="payment-modal-overlay" id="paymentModal">
+        <div class="payment-modal-box">
+            <button class="modal-close-btn" onclick="closePaymentModal()">×</button>
+
+            <!-- QR section -->
+            <div id="qrPaySection" style="display:none">
+                <div class="modal-title">Quét mã QR để thanh toán</div>
+                <div class="modal-subtitle" id="qrModalSubtitle">Mở ứng dụng ngân hàng / ví điện tử để quét</div>
+                <div class="qr-section">
+                    <div class="qr-image-wrap">
+                        <img src="images/maqrchuyenkhoan.jpg" alt="QR Chuyển Khoản" />
+                    </div>
+                    <div class="qr-info">
+                        <div class="qr-info-row"><span>Ngân hàng</span><strong>Vietcombank</strong></div>
+                        <div class="qr-info-row"><span>Tên TK</span><strong>HUA VAN THINH</strong></div>
+                        <div class="qr-info-row"><span>Số TK</span><strong>1049864313</strong></div>
+                        <div class="qr-info-row"><span>Số tiền</span><strong id="qrAmount" style="color:#4f46e5">—</strong></div>
+                        <div class="qr-info-row"><span>Nội dung CK</span><strong id="qrContent" style="color:#4f46e5">—</strong></div>
+                    </div>
+                    <button class="btn-confirm-pay" onclick="confirmQRPayment()">✓ Đã chuyển khoản xong</button>
+                </div>
+            </div>
+
+            <!-- Card section -->
+            <div id="cardPaySection" style="display:none">
+                <div class="modal-title" id="cardModalTitle">Nhập thông tin thẻ</div>
+                <div class="modal-subtitle">Thông tin được mã hóa và bảo mật tuyệt đối</div>
+                <div class="card-brand-row">
+                    <span class="card-brand-chip">VISA</span>
+                    <span class="card-brand-chip">Mastercard</span>
+                    <span class="card-brand-chip">JCB</span>
+                    <span class="card-brand-chip">Napas</span>
+                </div>
+                <div class="card-form">
+                    <div class="card-form-field">
+                        <label class="card-form-label">Số thẻ</label>
+                        <input class="card-form-input" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" inputmode="numeric">
+                        <span class="card-form-error" id="cardNumberError">Vui lòng nhập đúng 16 chữ số</span>
+                    </div>
+                    <div class="card-form-field">
+                        <label class="card-form-label">Tên chủ thẻ</label>
+                        <input class="card-form-input" id="cardName" placeholder="NGUYEN VAN A" style="text-transform:uppercase">
+                        <span class="card-form-error" id="cardNameError">Vui lòng nhập tên chủ thẻ</span>
+                    </div>
+                    <div class="card-form-row">
+                        <div class="card-form-field">
+                            <label class="card-form-label">Ngày hết hạn</label>
+                            <input class="card-form-input" id="cardExpiry" placeholder="MM/YY" maxlength="5" inputmode="numeric">
+                            <span class="card-form-error" id="cardExpiryError">Nhập định dạng MM/YY</span>
+                        </div>
+                        <div class="card-form-field">
+                            <label class="card-form-label">CVV / CVC</label>
+                            <input class="card-form-input" id="cardCVV" placeholder="3-4 số" maxlength="4" inputmode="numeric" type="password">
+                            <span class="card-form-error" id="cardCVVError">CVV không hợp lệ</span>
+                        </div>
+                    </div>
+                    <div class="qr-info" style="margin-top:4px">
+                        <div class="qr-info-row"><span>Số tiền thanh toán</span><strong id="cardAmount" style="color:#4f46e5">—</strong></div>
+                    </div>
+                    <button class="btn-pay" id="cardSubmitBtn" onclick="submitCardPayment()">Thanh toán ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
     <script src="auth.js"></script>
     <script src="DoAnGame.js"></script>
