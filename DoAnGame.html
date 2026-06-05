@@ -181,13 +181,16 @@
         </div>
 
 
-        <div class="body-layout">
+       <!-- ==================== BẮT ĐẦU PHẦN BODY LAYOUT SỬA ĐỔI ==================== -->
+        <!-- row: kích hoạt lưới Bootstrap, g-4: tạo khoảng cách (gutter) đều giữa các thẻ -->
+        <div class="body-layout row g-4">
 
+            <!-- CỘT BÊN TRÁI: Trên điện thoại (mặc định) chiếm 12/12 cột (100% chiều ngang) 
+                 Khi lên màn hình máy tính lớn (col-lg-8) sẽ tự động thu về 8/12 cột -->
+            <div class="left-col col-12 col-lg-8">
 
-            <div class="left-col">
-
-
-                <div class="card">
+                <!-- CARD 1: ĐĂNG NHẬP -->
+                <div class="card h-100 mb-4">
                     <div class="card-title"><span class="step">1</span> Đăng nhập</div>
 
                     <!-- Hiển thị khi đã đăng nhập -->
@@ -208,7 +211,7 @@
                             Vui lòng <a href="login.html" style="color:#4f46e5;font-weight:700;">đăng nhập</a> để thực hiện nạp thẻ
                         </div>
                         <div class="input-row">
-                            <input type="text" placeholder="Nhập ID / UID của bạn">
+                            <input type="text" placeholder="Nhập ID / UID của bạn" class="form-control d-inline-block w-auto me-2">
                             <button class="btn-red" onclick="window.location.href='login.html'">Đăng nhập</button>
                         </div>
                         <div class="social-row">
@@ -220,6 +223,7 @@
                     </div>
                 </div>
 
+                <!-- CARD 2: MỆNH GIÁ NẠP -->
                 <div class="card">
                     <div class="card-title"><span class="step">2</span> Mệnh giá nạp</div>
                     <div class="tab-row">
@@ -240,7 +244,7 @@
                             <div class="amount-gem">102 Xu</div>
                             <div class="amount-bonus">+2%</div>
                         </div>
-                        <div class="amount-card ">
+                        <div class="amount-card">
                             <div class="amount-badge">Phổ biến</div>
                             <div class="amount-vnd">100.000 đ</div>
                             <div class="amount-gem">204 Xu</div>
@@ -265,11 +269,14 @@
                     </div>
                 </div>
 
-            </div>
+            </div> <!-- KẾT THÚC CỘT TRÁI -->
 
 
-
-            <div class="right-col">
+            <!-- CỘT BÊN PHẢI: Trên điện thoại chiếm trọn 12/12 cột, xếp ngay dưới cột trái.
+                 Khi lên màn hình máy tính lớn (col-lg-4) sẽ tự động nhảy lên nằm song song bên phải -->
+            <div class="right-col col-12 col-lg-4">
+                
+                <!-- CARD 3: THÔNG TIN ĐƠN HÀNG -->
                 <div class="card" id="orderCard">
                     <div class="card-title"><span class="step">3</span> Thông tin đơn hàng</div>
 
@@ -277,7 +284,6 @@
 
                     <div id="orderDetail" style="display:none">
                         <div class="order-row"><span>Game</span><strong id="oGame">Liên Quân Mobile</strong></div>
-
                         <div class="order-row"><span>Mệnh giá</span><strong id="oAmount">10.000 đ</strong></div>
                         <div class="order-row"><span>Nhận được</span><strong id="oGem">20 Xu</strong></div>
                         <hr>
@@ -317,10 +323,11 @@
                         <button class="btn-pay">Thanh toán ngay</button>
                     </div>
                 </div>
-            </div>
 
-        </div>
+            </div> <!-- KẾT THÚC CỘT PHẢI -->
 
+        </div> <!-- KẾT THÚC BODY LAYOUT -->
+        <!-- ==================== KẾT THÚC PHẦN BODY LAYOUT SỬA ĐỔI ==================== -->
         <div class="card">
             <div class="card-title">Chọn nhanh game khác</div>
             <div class="other-grid">
