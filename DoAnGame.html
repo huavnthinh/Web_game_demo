@@ -27,13 +27,14 @@
                     </div>
                     <div class="dd-section">
                         <div class="dd-label">Tài khoản</div>
-                        <a class="dd-item">Đăng nhập</a>
-                        <a class="dd-item">Lịch sử giao dịch</a>
+                        <a class="dd-item" id="ddLoginItem" href="login.html">Đăng nhập</a>
+                        <a class="dd-item" id="ddLogoutItem" href="javascript:logout()" style="display:none">Đăng xuất</a>
+                        <a class="dd-item" href="history.html">Lịch sử giao dịch</a>
                     </div>
                     <div class="dd-section">
                         <div class="dd-label">Hỗ trợ</div>
-                        <a class="dd-item">Hướng dẫn nạp thẻ</a>
-                        <a class="dd-item">Liên hệ hỗ trợ</a>
+                        <a class="dd-item" href="topup-guide.html">Hướng dẫn nạp thẻ</a>
+                        <a class="dd-item" href="#">Liên hệ hỗ trợ</a>
                     </div>
                 </div>
             </div>
@@ -46,12 +47,12 @@
                     </div>
                     <hr>
                     <a href="#" class="menu-item">⚙️ Cài đặt</a>
-                    <a href="#" class="menu-item">💰 Lịch sử nạp thẻ</a>
-                    <a href="#" class="menu-item">🎁 Quà tặng</a>
+                    <a href="history.html" class="menu-item">💰 Lịch sử nạp thẻ</a>
+                    <a href="topup-guide.html" class="menu-item">📖 Hướng dẫn nạp thẻ</a>
                     <hr>
                     <a href="javascript:logout()" class="menu-item logout">🚪 Đăng xuất</a>
                 </div>
-                <a href="login.html" class="btn-login text-decoration-none d-inline-block" id="loginBtn">Đăng nhập</a>
+                <a href="login.html" class="btn-login" id="loginBtn">Đăng nhập</a>
             </div>
         </div>
     </header>
@@ -79,7 +80,7 @@
                             <div class="huit-box">HUIT</div>
                             <div class="huit-name">Khoa Công Nghệ Thông Tin</div>
                             <a class="huit-link-btn" href="https://huit.edu.vn/" target="_blank">
-                                Visit HUIT <i class="fas fa-external-link-alt ms-1"></i>
+                                Visit HUIT ↗
                             </a>
                         </div>
                     </div>
@@ -131,30 +132,33 @@
 
         </div>
 
-        <div class="card">
-            <div class="card-title">Lựa chọn trò chơi</div>
+        <div class="card" id="topup">
+            <div class="card-title">
+                Lựa chọn trò chơi
+                <span class="game-count">4 game</span>
+            </div>
             <div class="game-list">
-                <div class="game-item active">
+                <div class="game-item active" tabindex="0" role="button" aria-label="Chọn Liên Quân Mobile">
                     <div class="game-icon">
-                        <img src="images/lienquan.jpg" alt="Liên quân" />
+                        <img src="images/lienquan.jpg" alt="Liên Quân Mobile" />
                     </div>
                     <span>Liên Quân Mobile</span>
                 </div>
-                <div class="game-item">
+                <div class="game-item" tabindex="0" role="button" aria-label="Chọn Free Fire">
                     <div class="game-icon">
-                        <img src="images/freefire.jpg" alt="Liên quân" />
+                        <img src="images/freefire.jpg" alt="Free Fire" />
                     </div>
                     <span>Free Fire</span>
                 </div>
-                <div class="game-item">
+                <div class="game-item" tabindex="0" role="button" aria-label="Chọn FC Online VN">
                     <div class="game-icon">
-                        <img src="images/fconl.jpg" alt="Liên quân" />
+                        <img src="images/fconl.jpg" alt="FC Online VN" />
                     </div>
                     <span>FC Online VN</span>
                 </div>
-                <div class="game-item">
+                <div class="game-item" tabindex="0" role="button" aria-label="Chọn Delta Force">
                     <div class="game-icon">
-                        <img src="images/deltaforce.jpg" alt="Liên quân" />
+                        <img src="images/deltaforce.jpg" alt="Delta Force" />
                     </div>
                     <span>Delta Force</span>
                 </div>
@@ -162,15 +166,18 @@
         </div>
 
 
-        <div class="sel-banner">
+        <div class="sel-banner" id="selBanner">
             <div class="sel-icon">
-                <img class="game-icon" src="images/lienquan.jpg" />
+                <img src="images/lienquan.jpg" alt="Game đã chọn" id="selGameImg" />
             </div>
-            <div>
+            <div class="sel-text-group">
                 <div class="sel-name" id="selGameName">Liên Quân Mobile</div>
-                <span class="sel-badge">Thanh toán an toàn 100%</span>
+                <div class="sel-meta">
+                    <span class="sel-badge">Thanh toán an toàn 100%</span>
+                    <span class="sel-currency" id="selCurrency">Xu</span>
+                </div>
             </div>
-            <a class="sel-link" href="">→ Xem thêm</a>
+            <a class="sel-link" href="topup-guide.html">Hướng dẫn nạp →</a>
         </div>
 
 
@@ -231,22 +238,29 @@
                         <div class="amount-card">
                             <div class="amount-vnd">50.000 đ</div>
                             <div class="amount-gem">102 Xu</div>
+                            <div class="amount-bonus">+2%</div>
                         </div>
-                        <div class="amount-card" >
+                        <div class="amount-card amount-popular">
+                            <div class="amount-badge">Phổ biến</div>
                             <div class="amount-vnd">100.000 đ</div>
                             <div class="amount-gem">204 Xu</div>
+                            <div class="amount-bonus">+2%</div>
                         </div>
                         <div class="amount-card">
                             <div class="amount-vnd">200.000 đ</div>
                             <div class="amount-gem">408 Xu</div>
+                            <div class="amount-bonus">+2%</div>
                         </div>
-                        <div class="amount-card" >
+                        <div class="amount-card amount-best">
+                            <div class="amount-badge best">Tiết kiệm</div>
                             <div class="amount-vnd">500.000 đ</div>
                             <div class="amount-gem">1.020 Xu</div>
+                            <div class="amount-bonus">+2%</div>
                         </div>
-                        <div class="amount-card" >
+                        <div class="amount-card">
                             <div class="amount-vnd">1.000.000 đ</div>
                             <div class="amount-gem">2.090 Xu</div>
+                            <div class="amount-bonus">+4,5%</div>
                         </div>
                     </div>
                 </div>
@@ -259,9 +273,9 @@
                 <div class="card" id="orderCard">
                     <div class="card-title"><span class="step">3</span> Thông tin đơn hàng</div>
 
-                    <div id="orderEmpty" class="order-empty" style="display:none">Vui lòng chọn mệnh giá nạp</div>
+                    <div id="orderEmpty" class="order-empty">Vui lòng chọn mệnh giá nạp</div>
 
-                    <div id="orderDetail">
+                    <div id="orderDetail" style="display:none">
                         <div class="order-row"><span>Game</span><strong id="oGame">Liên Quân Mobile</strong></div>
 
                         <div class="order-row"><span>Mệnh giá</span><strong id="oAmount">10.000 đ</strong></div>
@@ -308,41 +322,49 @@
         </div>
 
         <div class="card">
-            <div class="card-title">Các trang nạp khác</div>
+            <div class="card-title">Chọn nhanh game khác</div>
             <div class="other-grid">
-                <div class="other-card">
-                    <a href="#">
-                        <div class="other-img">Free Fire</div>
+                <div class="other-card" data-game="Free Fire">
+                    <a href="DoAnGame.html#freefire">
+                        <div class="other-img" style="background-image:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.55)),url('images/freefire.jpg');background-size:cover;background-position:center;">
+                            <span class="other-img-label">Free Fire</span>
+                        </div>
                         <div class="other-info">
-                            <div class="other-sub">Garena</div>
-                            <div class="other-name">Nạp Xu Free Fire</div>
+                            <div class="other-sub">Garena · Kim Cương</div>
+                            <div class="other-name">Nạp Kim Cương</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="other-card" data-game="FC Online VN">
+                    <a href="DoAnGame.html#fconline">
+                        <div class="other-img" style="background-image:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.55)),url('images/fconl.jpg');background-size:cover;background-position:center;">
+                            <span class="other-img-label">FC Online VN</span>
+                        </div>
+                        <div class="other-info">
+                            <div class="other-sub">EA Sports · NX Cash</div>
+                            <div class="other-name">Nạp NX Cash</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="other-card" data-game="Delta Force">
+                    <a href="DoAnGame.html#deltaforce">
+                        <div class="other-img" style="background-image:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.55)),url('images/deltaforce.jpg');background-size:cover;background-position:center;">
+                            <span class="other-img-label">Delta Force</span>
+                        </div>
+                        <div class="other-info">
+                            <div class="other-sub">TiMi Studio · Gold</div>
+                            <div class="other-name">Nạp Gold</div>
                         </div>
                     </a>
                 </div>
                 <div class="other-card">
-                    <a href="#">
-                        <div class="other-img">FC Online VN</div>
-                        <div class="other-info">
-                            <div class="other-sub">EA Sports</div>
-                            <div class="other-name">Nạp Cash FC Online</div>
+                    <a href="topup-guide.html">
+                        <div class="other-img other-img-guide">
+                            <span class="other-img-label">📖</span>
                         </div>
-                    </a>
-                </div>
-                <div class="other-card">
-                    <a href="#">
-                        <div class="other-img">Delta Force</div>
                         <div class="other-info">
-                            <div class="other-sub">TiMi Studio</div>
-                            <div class="other-name">Nạp Gold Delta Force</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="other-card">
-                    <a href="#">
-                        <div class="other-img">Nạp Sò</div>
-                        <div class="other-info">
-                            <div class="other-sub">Garena</div>
-                            <div class="other-name">Đổi Sò nhận quà</div>
+                            <div class="other-sub">EGSP · Hỗ trợ</div>
+                            <div class="other-name">Hướng dẫn nạp thẻ</div>
                         </div>
                     </a>
                 </div>
@@ -370,10 +392,10 @@
                 </div>
                 <div class="footer-col">
                     <div class="footer-col-title">Hỗ trợ</div>
-                    <a href="#">Hướng dẫn nạp thẻ</a>
-                    <a href="#">Câu hỏi thường gặp</a>
+                    <a href="topup-guide.html">Hướng dẫn nạp thẻ</a>
+                    <a href="topup-guide.html#faq">Câu hỏi thường gặp</a>
                     <a href="#">Liên hệ hỗ trợ</a>
-                    <a href="#">Lịch sử giao dịch</a>
+                    <a href="history.html">Lịch sử giao dịch</a>
                 </div>
                 <div class="footer-col">
                     <div class="footer-col-title">Pháp lý</div>
@@ -455,8 +477,9 @@
         </div>
     </div>
 
-    <script src="../bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
     <script src="auth.js"></script>
+    <script src="historyData.js"></script>
     <script src="DoAnGame.js"></script>
 </body>
 </html>

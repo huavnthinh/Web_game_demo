@@ -2,11 +2,26 @@
 // EGSP Gaming Hub - Main Game Page Logic
 // ============================================
 
+const GAME_DATA = {
+    'Liên Quân Mobile': { currency: 'Xu',        img: 'images/lienquan.jpg'  },
+    'Free Fire':        { currency: 'Kim Cương',  img: 'images/freefire.jpg'  },
+    'FC Online VN':     { currency: 'NX Cash',    img: 'images/fconl.jpg'     },
+    'Delta Force':      { currency: 'Gold',        img: 'images/deltaforce.jpg'}
+};
+const AMOUNT_QTY = ['20', '40', '102', '204', '408', '1.020', '2.090'];
+
 document.addEventListener('DOMContentLoaded', function() {
     initializeUserSession();
     setupEventListeners();
     setupCardInputFormatting();
+    handleHashGameSelection();
+    initSelBanner();
 });
+
+function initSelBanner() {
+    const firstGame = document.querySelector('.game-item.active');
+    if (firstGame) handleGameSelection(firstGame);
+}
 
 function initializeUserSession() {
     const currentUser = getCurrentUser();
@@ -27,6 +42,12 @@ function initializeUserSession() {
         if (userName) userName.textContent = currentUser.displayName;
         if (userLevel) userLevel.textContent = `Lv. ${currentUser.level}`;
 
+        // Hide "Đăng nhập" in hamburger dropdown, show "Đăng xuất"
+        const ddLoginItem = document.getElementById('ddLoginItem');
+        const ddLogoutItem = document.getElementById('ddLogoutItem');
+        if (ddLoginItem) ddLoginItem.style.display = 'none';
+        if (ddLogoutItem) ddLogoutItem.style.display = 'block';
+
         // Step 1: show logged-in user info
         if (step1LoggedIn) {
             step1LoggedIn.style.display = 'block';
@@ -45,6 +66,12 @@ function initializeUserSession() {
         if (userMenu) userMenu.style.display = 'none';
         if (loginBtn) loginBtn.style.display = 'inline-block';
 
+        // Show "Đăng nhập" in dropdown, hide "Đăng xuất"
+        const ddLoginItem = document.getElementById('ddLoginItem');
+        const ddLogoutItem = document.getElementById('ddLogoutItem');
+        if (ddLoginItem) ddLoginItem.style.display = 'block';
+        if (ddLogoutItem) ddLogoutItem.style.display = 'none';
+
         // Step 1: show login prompt
         if (step1LoggedIn) step1LoggedIn.style.display = 'none';
         if (step1NotLoggedIn) step1NotLoggedIn.style.display = 'block';
@@ -52,9 +79,12 @@ function initializeUserSession() {
 }
 
 function setupEventListeners() {
-    // Game selection
+    // Game selection (click + keyboard)
     document.querySelectorAll('.game-item').forEach(item => {
         item.addEventListener('click', function() { handleGameSelection(this); });
+        item.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleGameSelection(this); }
+        });
     });
 
     // Amount selection
@@ -73,7 +103,6 @@ function setupEventListeners() {
             userMenu.style.opacity = isOpen ? '0' : '1';
             userMenu.style.visibility = isOpen ? 'hidden' : 'visible';
 
-            // Position the menu below avatar
             if (!isOpen) {
                 const rect = userAvatar.getBoundingClientRect();
                 userMenu.style.top = (rect.bottom + 8) + 'px';
@@ -82,13 +111,69 @@ function setupEventListeners() {
         });
     }
 
-    // Close menu when clicking outside
+    // Close user menu when clicking outside
     document.addEventListener('click', (e) => {
         if (userMenu && userAvatar && !userMenu.contains(e.target) && !userAvatar.contains(e.target)) {
             userMenu.style.display = 'none';
             userMenu.style.opacity = '0';
             userMenu.style.visibility = 'hidden';
         }
+    });
+
+    // Hamburger toggle
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLeft = document.querySelector('.nav-left');
+    if (hamburgerBtn && navLeft) {
+        hamburgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLeft.classList.toggle('menu-open');
+        });
+        document.addEventListener('click', (e) => {
+            if (!navLeft.contains(e.target)) navLeft.classList.remove('menu-open');
+        });
+    }
+
+    // Dropdown game item clicks → scroll to & select game
+    const ddGameMap = {
+        'Liên Quân Mobile': 0,
+        'Free Fire': 1,
+        'FC Online VN': 2,
+        'Delta Force': 3
+    };
+    document.querySelectorAll('#navDropdown .dd-item').forEach(item => {
+        const text = item.textContent.trim();
+        if (ddGameMap.hasOwnProperty(text)) {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const gameItems = document.querySelectorAll('.game-item');
+                const target = gameItems[ddGameMap[text]];
+                if (target) {
+                    handleGameSelection(target);
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                navLeft && navLeft.classList.remove('menu-open');
+            });
+        }
+    });
+
+    // "Các trang nạp khác" cards → select corresponding game & scroll up
+    document.querySelectorAll('.other-card a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const nameEl = link.querySelector('.other-name');
+            if (!nameEl) return;
+            const cardName = nameEl.textContent;
+            const gameItems = document.querySelectorAll('.game-item');
+            let matched = false;
+            gameItems.forEach(gi => {
+                if (!matched && gi.querySelector('span')?.textContent === cardName.replace('Nạp Xu ', '').replace('Nạp Cash ', '').replace('Nạp Gold ', '')) {
+                    handleGameSelection(gi);
+                    gi.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    matched = true;
+                }
+            });
+            if (!matched) window.location.href = 'topup-guide.html';
+        });
     });
 
     // Payment button
@@ -106,21 +191,54 @@ function setupEventListeners() {
     });
 }
 
+function handleHashGameSelection() {
+    const hashMap = { freefire: 'Free Fire', fconline: 'FC Online VN', deltaforce: 'Delta Force', lienquan: 'Liên Quân Mobile' };
+    const hash = window.location.hash.slice(1).toLowerCase();
+    const gameName = hashMap[hash];
+    if (!gameName) return;
+    const gameItems = document.querySelectorAll('.game-item');
+    gameItems.forEach(gi => {
+        if (gi.querySelector('span')?.textContent === gameName) handleGameSelection(gi);
+    });
+}
+
 function handleGameSelection(element) {
     document.querySelectorAll('.game-item').forEach(e => e.classList.remove('active'));
     element.classList.add('active');
 
     const gameName = element.querySelector('span').textContent;
     const gameImg = element.querySelector('.game-icon img')?.src;
+    const gameData = GAME_DATA[gameName] || { currency: 'Xu', img: gameImg };
 
+    // Update sel-banner name, icon, and currency tag
     const selName = document.getElementById('selGameName');
-    const oGame = document.getElementById('oGame');
     if (selName) selName.textContent = gameName;
-    if (oGame) oGame.textContent = gameName;
+
+    const selCurrency = document.getElementById('selCurrency');
+    if (selCurrency) selCurrency.textContent = gameData.currency;
+
+    const selIconImg = document.getElementById('selGameImg') || document.querySelector('.sel-icon img');
+    if (selIconImg && gameImg) selIconImg.src = gameImg;
 
     const selBanner = document.querySelector('.sel-banner');
     if (selBanner && gameImg) {
         selBanner.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("${gameImg}")`;
+    }
+
+    // Update order panel game name
+    const oGame = document.getElementById('oGame');
+    if (oGame) oGame.textContent = gameName;
+
+    // Update amount currency labels
+    document.querySelectorAll('.amount-gem').forEach((el, i) => {
+        el.textContent = (AMOUNT_QTY[i] || '') + ' ' + gameData.currency;
+    });
+
+    // Refresh oGem if an amount is already selected
+    const selectedCard = document.querySelector('.amount-card.selected');
+    if (selectedCard) {
+        const oGem = document.getElementById('oGem');
+        if (oGem) oGem.textContent = selectedCard.querySelector('.amount-gem')?.textContent || '';
     }
 }
 
@@ -196,11 +314,12 @@ function confirmQRPayment() {
     const currentUser = getCurrentUser();
     const vnd = document.getElementById('oAmount').textContent;
     const game = document.getElementById('oGame').textContent;
+    const gem = document.getElementById('oGem')?.textContent || '';
     const payName = document.querySelector('input[name="payment"]:checked')?.closest('.pay-item')?.dataset.payName || 'QR';
 
     logTransaction({
         date: new Date().toLocaleString('vi-VN'),
-        game, amount: vnd, payment: payName,
+        game, amount: vnd, gem, payment: payName,
         status: 'Thành công', user: currentUser?.displayName
     });
 
@@ -279,11 +398,12 @@ function submitCardPayment() {
         const currentUser = getCurrentUser();
         const vnd = document.getElementById('cardAmount').textContent;
         const game = document.getElementById('oGame').textContent;
+        const gem = document.getElementById('oGem')?.textContent || '';
         const payName = document.querySelector('input[name="payment"]:checked')?.closest('.pay-item')?.dataset.payName || 'Thẻ';
 
         logTransaction({
             date: new Date().toLocaleString('vi-VN'),
-            game, amount: vnd, payment: payName,
+            game, amount: vnd, gem, payment: payName,
             status: 'Thành công', user: currentUser?.displayName
         });
 
@@ -310,9 +430,10 @@ function simulatePayment(vnd, game, payName, currentUser) {
         payBtn.textContent = '✓ Thành công!';
         payBtn.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
 
+        const gem = document.getElementById('oGem')?.textContent || '';
         logTransaction({
             date: new Date().toLocaleString('vi-VN'),
-            game, amount: vnd, payment: payName,
+            game, amount: vnd, gem, payment: payName,
             status: 'Thành công', user: currentUser.displayName
         });
 
@@ -406,10 +527,15 @@ function showNotification(message, type = 'info') {
 }
 
 function logTransaction(transaction) {
-    let transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-    transactions.unshift(transaction);
-    if (transactions.length > 50) transactions = transactions.slice(0, 50);
-    localStorage.setItem('transactions', JSON.stringify(transactions));
+    if (typeof saveTransaction === 'function') {
+        saveTransaction(transaction);
+    } else {
+        // Fallback: shared storage
+        let list = JSON.parse(localStorage.getItem('transactions') || '[]');
+        list.unshift(transaction);
+        if (list.length > 50) list = list.slice(0, 50);
+        localStorage.setItem('transactions', JSON.stringify(list));
+    }
 }
 
 // Animation styles

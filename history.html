@@ -10,173 +10,299 @@
 </head>
 <body>
 
-<header class="header">
-  <div class="nav-inner">
+<header>
+  <div class="nav-top">
     <div class="nav-left">
-      <a href="index.html" class="logo">
-        <div class="logo-mark"></div>
-        <span>EGSP</span>
-      </a>
+      <div class="logo-box"></div>
+      <span class="logo-text">EGSP</span>
+      <div class="nav-divider"></div>
+      <div class="hamburger" id="hamburgerBtn">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="dropdown" id="navDropdown">
+        <div class="dd-section">
+          <div class="dd-label">Trò chơi</div>
+          <a class="dd-item" href="DoAnGame.html#lienquan">Liên Quân Mobile</a>
+          <a class="dd-item" href="DoAnGame.html#freefire">Free Fire</a>
+          <a class="dd-item" href="DoAnGame.html#fconline">FC Online VN</a>
+          <a class="dd-item" href="DoAnGame.html#deltaforce">Delta Force</a>
+        </div>
+        <div class="dd-section">
+          <div class="dd-label">Tài khoản</div>
+          <a class="dd-item" id="ddLoginItem" href="login.html">Đăng nhập</a>
+          <a class="dd-item" id="ddLogoutItem" href="javascript:doLogout()" style="display:none">Đăng xuất</a>
+          <a class="dd-item" href="history.html">Lịch sử giao dịch</a>
+        </div>
+        <div class="dd-section">
+          <div class="dd-label">Hỗ trợ</div>
+          <a class="dd-item" href="topup-guide.html">Hướng dẫn nạp thẻ</a>
+          <a class="dd-item" href="#">Liên hệ hỗ trợ</a>
+        </div>
+      </div>
     </div>
     <div class="nav-right">
-      <a href="login.html" class="btn-login">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Đăng nhập
-      </a>
+      <div class="avatar" id="userAvatar" title="Profile" style="display:none"></div>
+      <div id="userMenu" class="user-menu">
+        <div class="user-info">
+          <div class="user-name" id="userName">Chiến Binh</div>
+          <div class="user-level" id="userLevel">Lv. 0</div>
+        </div>
+        <hr>
+        <a href="DoAnGame.html" class="menu-item">🎮 Nạp thẻ game</a>
+        <a href="history.html" class="menu-item">💰 Lịch sử nạp thẻ</a>
+        <a href="topup-guide.html" class="menu-item">📖 Hướng dẫn nạp thẻ</a>
+        <hr>
+        <a href="javascript:doLogout()" class="menu-item logout">🚪 Đăng xuất</a>
+      </div>
+      <a href="login.html" class="btn-login" id="loginBtn">Đăng nhập</a>
     </div>
   </div>
 </header>
 
-<main class="container" style="padding-top:24px">
+<main class="container" style="padding-top:20px">
 
   <!-- PAGE TITLE -->
   <div class="page-heading">
     <h1 class="page-title">Lịch sử giao dịch</h1>
-    <p class="page-sub">Tất cả các giao dịch nạp thẻ của bạn</p>
+    <p class="page-sub" id="historySubtitle">Tất cả các giao dịch nạp thẻ của bạn</p>
   </div>
 
-  <!-- FILTER BAR -->
-  <div class="card filter-bar">
-    <div class="filter-group">
-      <label class="field-label" style="margin-bottom:4px">Tìm kiếm</label>
-      <div class="field-wrap">
-        <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" class="field-input" placeholder="Mã GD, tên game..." />
+  <!-- NOT LOGGED IN STATE -->
+  <div id="notLoggedInState" style="display:none">
+    <div class="card" style="text-align:center;padding:40px 20px;">
+      <div style="font-size:40px;margin-bottom:12px;">🔐</div>
+      <div style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Vui lòng đăng nhập</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Bạn cần đăng nhập để xem lịch sử giao dịch</p>
+      <a href="login.html" class="btn-red" style="display:inline-block;text-decoration:none;padding:10px 24px;">Đăng nhập ngay</a>
+    </div>
+  </div>
+
+  <!-- LOGGED IN STATE -->
+  <div id="loggedInState" style="display:none">
+
+    <!-- FILTER BAR -->
+    <div class="card filter-bar">
+      <div class="filter-group">
+        <label class="field-label">Tìm kiếm</label>
+        <div class="field-wrap">
+          <svg class="field-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="field-input" id="searchInput" placeholder="Mã GD, tên game..." />
+        </div>
+      </div>
+      <div class="filter-group">
+        <label class="field-label">Trạng thái</label>
+        <select class="field-input select-input" id="statusFilter">
+          <option value="">Tất cả</option>
+          <option value="Thành công">Thành công</option>
+          <option value="Đang xử lý">Đang xử lý</option>
+          <option value="Thất bại">Thất bại</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="field-label">Game</label>
+        <select class="field-input select-input" id="gameFilter">
+          <option value="">Tất cả game</option>
+          <option value="Liên Quân Mobile">Liên Quân Mobile</option>
+          <option value="Free Fire">Free Fire</option>
+          <option value="FC Online VN">FC Online VN</option>
+          <option value="Delta Force">Delta Force</option>
+        </select>
+      </div>
+      <button class="btn-red" style="margin-top:20px;height:38px;padding:0 18px;" onclick="applyFilters()">Lọc</button>
+      <button class="btn-red" style="margin-top:20px;height:38px;padding:0 14px;background:var(--bg-surface);color:var(--text-secondary);border:1px solid var(--border-normal);box-shadow:none;" onclick="resetFilters()">Xóa lọc</button>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-val" id="statTotal">0</div>
+        <div class="stat-label">Giao dịch</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val accent" id="statAmount">0 đ</div>
+        <div class="stat-label">Tổng nạp</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="statSuccess" style="color:#22c55e">0</div>
+        <div class="stat-label">Thành công</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="statFail" style="color:#ef4444">0</div>
+        <div class="stat-label">Thất bại</div>
       </div>
     </div>
-    <div class="filter-group">
-      <label class="field-label" style="margin-bottom:4px">Trạng thái</label>
-      <select class="field-input select-input">
-        <option>Tất cả</option>
-        <option>Thành công</option>
-        <option>Đang xử lý</option>
-        <option>Thất bại</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label class="field-label" style="margin-bottom:4px">Thời gian</label>
-      <select class="field-input select-input">
-        <option>7 ngày gần đây</option>
-        <option>30 ngày gần đây</option>
-        <option>3 tháng gần đây</option>
-        <option>Tất cả</option>
-      </select>
-    </div>
-    <button class="btn-red" style="margin-top:20px;height:40px">Lọc</button>
-  </div>
 
-  <!-- STATS ROW -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-val">12</div>
-      <div class="stat-label">Giao dịch</div>
+    <!-- TRANSACTION TABLE -->
+    <div class="card" style="overflow-x:auto;padding:0">
+      <table class="tx-table">
+        <thead>
+          <tr>
+            <th>Mã GD</th>
+            <th>Game</th>
+            <th>Mệnh giá</th>
+            <th>Nhận được</th>
+            <th>Thanh toán</th>
+            <th>Thời gian</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody id="txTableBody"></tbody>
+      </table>
+      <div id="txEmpty" class="empty-state" style="display:none">
+        <div class="empty-icon">📋</div>
+        <p>Chưa có giao dịch nào</p>
+        <a href="DoAnGame.html" style="color:var(--color-primary);font-size:13px;font-weight:600;">Nạp thẻ ngay →</a>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-val accent">1.850.000 đ</div>
-      <div class="stat-label">Tổng nạp</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" style="color:#22c55e">11</div>
-      <div class="stat-label">Thành công</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" style="color:#ef4444">1</div>
-      <div class="stat-label">Thất bại</div>
-    </div>
-  </div>
 
-  <!-- TRANSACTION TABLE -->
-  <div class="card" style="overflow-x:auto;padding:0">
-    <table class="tx-table">
-      <thead>
-        <tr>
-          <th>Mã GD</th>
-          <th>Game</th>
-          <th>Mệnh giá</th>
-          <th>Nhận được</th>
-          <th>Thanh toán</th>
-          <th>Thời gian</th>
-          <th>Trạng thái</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="tx-id">#GD240501</td>
-          <td class="tx-game"><span class="game-dot lq"></span>Liên Quân Mobile</td>
-          <td>200.000 đ</td>
-          <td class="accent">408 Xu</td>
-          <td>ShopeePay</td>
-          <td class="tx-time">01/05/2026 14:22</td>
-          <td><span class="badge badge-success">Thành công</span></td>
-        </tr>
-        <tr>
-          <td class="tx-id">#GD240428</td>
-          <td class="tx-game"><span class="game-dot ff"></span>Free Fire</td>
-          <td>100.000 đ</td>
-          <td class="accent">204 Xu</td>
-          <td>ZaloPay</td>
-          <td class="tx-time">28/04/2026 09:10</td>
-          <td><span class="badge badge-success">Thành công</span></td>
-        </tr>
-        <tr>
-          <td class="tx-id">#GD240420</td>
-          <td class="tx-game"><span class="game-dot fc"></span>FC Online VN</td>
-          <td>500.000 đ</td>
-          <td class="accent">1.020 Cash</td>
-          <td>ATM</td>
-          <td class="tx-time">20/04/2026 18:45</td>
-          <td><span class="badge badge-success">Thành công</span></td>
-        </tr>
-        <tr>
-          <td class="tx-id">#GD240415</td>
-          <td class="tx-game"><span class="game-dot df"></span>Delta Force</td>
-          <td>50.000 đ</td>
-          <td class="accent">—</td>
-          <td>QR Pay</td>
-          <td class="tx-time">15/04/2026 11:33</td>
-          <td><span class="badge badge-fail">Thất bại</span></td>
-        </tr>
-        <tr>
-          <td class="tx-id">#GD240410</td>
-          <td class="tx-game"><span class="game-dot lq"></span>Liên Quân Mobile</td>
-          <td>1.000.000 đ</td>
-          <td class="accent">2.090 Xu</td>
-          <td>Visa</td>
-          <td class="tx-time">10/04/2026 20:01</td>
-          <td><span class="badge badge-success">Thành công</span></td>
-        </tr>
-        <tr>
-          <td class="tx-id">#GD240405</td>
-          <td class="tx-game"><span class="game-dot ff"></span>Free Fire</td>
-          <td>20.000 đ</td>
-          <td class="accent">40 Xu</td>
-          <td>ShopeePay</td>
-          <td class="tx-time">05/04/2026 08:17</td>
-          <td><span class="badge badge-pending">Đang xử lý</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- PAGINATION -->
-  <div class="pagination">
-    <button class="page-btn active">1</button>
-    <button class="page-btn">2</button>
-    <button class="page-btn">3</button>
-    <span class="page-dots">...</span>
-    <button class="page-btn">8</button>
   </div>
 
 </main>
 
-<footer class="footer">
+<footer>
   <div class="container">
-    <div class="footer-bottom" style="border-top:1px solid var(--border);padding-top:16px">
+    <div class="footer-bottom" style="border-top:1px solid rgba(79,70,229,0.2);padding-top:16px">
       <span>© 2026 EGSP · Nạp game uy tín</span>
       <span>HUIT — Ho Chi Minh City University of Industry and Trade</span>
     </div>
   </div>
 </footer>
 
+<script src="auth.js"></script>
+<script src="historyData.js"></script>
+<script>
+const GAME_DOT = { 'Liên Quân Mobile': 'lq', 'Free Fire': 'ff', 'FC Online VN': 'fc', 'Delta Force': 'df' };
+let allTransactions = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    const user = getCurrentUser();
+    const loggedIn = isUserLoggedIn();
+
+    if (user && loggedIn) {
+        document.getElementById('loggedInState').style.display = 'block';
+        document.getElementById('notLoggedInState').style.display = 'none';
+        document.getElementById('loginBtn').style.display = 'none';
+
+        const avatar = document.getElementById('userAvatar');
+        avatar.style.display = 'flex';
+        avatar.textContent = user.displayName.charAt(0).toUpperCase();
+        document.getElementById('userName').textContent = user.displayName;
+        document.getElementById('userLevel').textContent = 'Lv. ' + user.level;
+        document.getElementById('historySubtitle').textContent = 'Giao dịch của ' + user.displayName;
+
+        document.getElementById('ddLoginItem').style.display = 'none';
+        document.getElementById('ddLogoutItem').style.display = 'block';
+
+        allTransactions = getTransactionHistory(user.email);
+        renderTransactions(allTransactions);
+        updateStats(allTransactions);
+    } else {
+        document.getElementById('loggedInState').style.display = 'none';
+        document.getElementById('notLoggedInState').style.display = 'block';
+        document.getElementById('ddLoginItem').style.display = 'block';
+        document.getElementById('ddLogoutItem').style.display = 'none';
+    }
+
+    // Avatar menu toggle
+    const avatar = document.getElementById('userAvatar');
+    const menu = document.getElementById('userMenu');
+    if (avatar && menu) {
+        avatar.addEventListener('click', e => {
+            e.stopPropagation();
+            const open = menu.style.display === 'block';
+            menu.style.display = open ? 'none' : 'block';
+            menu.style.opacity = open ? '0' : '1';
+            menu.style.visibility = open ? 'hidden' : 'visible';
+            if (!open) {
+                const r = avatar.getBoundingClientRect();
+                menu.style.top = (r.bottom + 8) + 'px';
+                menu.style.right = (window.innerWidth - r.right) + 'px';
+            }
+        });
+        document.addEventListener('click', e => {
+            if (!menu.contains(e.target) && !avatar.contains(e.target)) {
+                menu.style.display = 'none';
+                menu.style.opacity = '0';
+                menu.style.visibility = 'hidden';
+            }
+        });
+    }
+
+    // Hamburger
+    const hbtn = document.getElementById('hamburgerBtn');
+    const navLeft = document.querySelector('.nav-left');
+    if (hbtn && navLeft) {
+        hbtn.addEventListener('click', e => { e.stopPropagation(); navLeft.classList.toggle('menu-open'); });
+        document.addEventListener('click', e => { if (!navLeft.contains(e.target)) navLeft.classList.remove('menu-open'); });
+    }
+});
+
+function renderTransactions(list) {
+    const tbody = document.getElementById('txTableBody');
+    const empty = document.getElementById('txEmpty');
+    if (!list || list.length === 0) {
+        tbody.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+    }
+    empty.style.display = 'none';
+    tbody.innerHTML = list.map(tx => {
+        const dot = GAME_DOT[tx.game] || 'lq';
+        const badgeClass = tx.status === 'Thành công' ? 'badge-success' : tx.status === 'Thất bại' ? 'badge-fail' : 'badge-pending';
+        const gem = tx.gem || '—';
+        return `<tr>
+          <td class="tx-id">${tx.id || '—'}</td>
+          <td><span class="tx-game"><span class="game-dot ${dot}"></span>${tx.game}</span></td>
+          <td>${tx.amount}</td>
+          <td class="accent">${gem}</td>
+          <td>${tx.payment}</td>
+          <td class="tx-time">${tx.date}</td>
+          <td><span class="badge ${badgeClass}">${tx.status}</span></td>
+        </tr>`;
+    }).join('');
+}
+
+function updateStats(list) {
+    const total = list.length;
+    const success = list.filter(t => t.status === 'Thành công').length;
+    const fail = list.filter(t => t.status === 'Thất bại').length;
+    const totalAmount = list.filter(t => t.status === 'Thành công')
+        .reduce((sum, t) => sum + parseInt((t.amount || '').replace(/[^\d]/g, '') || '0'), 0);
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statSuccess').textContent = success;
+    document.getElementById('statFail').textContent = fail;
+    document.getElementById('statAmount').textContent = totalAmount.toLocaleString('vi-VN') + ' đ';
+}
+
+function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const status = document.getElementById('statusFilter').value;
+    const game = document.getElementById('gameFilter').value;
+
+    const filtered = allTransactions.filter(tx => {
+        const matchSearch = !search || (tx.id || '').toLowerCase().includes(search) || (tx.game || '').toLowerCase().includes(search);
+        const matchStatus = !status || tx.status === status;
+        const matchGame = !game || tx.game === game;
+        return matchSearch && matchStatus && matchGame;
+    });
+    renderTransactions(filtered);
+    updateStats(filtered);
+}
+
+function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('statusFilter').value = '';
+    document.getElementById('gameFilter').value = '';
+    renderTransactions(allTransactions);
+    updateStats(allTransactions);
+}
+
+function doLogout() {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = 'login.html';
+}
+</script>
 </body>
 </html>
