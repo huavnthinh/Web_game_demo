@@ -156,23 +156,21 @@ function setupEventListeners() {
         }
     });
 
-    // "Các trang nạp khác" cards → select corresponding game & scroll up
-    document.querySelectorAll('.other-card a').forEach(link => {
+    // "Chọn nhanh game khác" cards → select corresponding game & scroll up.
+    // Cards without a data-game (e.g. hướng dẫn) keep their normal link navigation.
+    document.querySelectorAll('.other-card').forEach(card => {
+        const link = card.querySelector('a');
+        const gameName = card.dataset.game;
+        if (!link || !gameName) return;
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const nameEl = link.querySelector('.other-name');
-            if (!nameEl) return;
-            const cardName = nameEl.textContent;
             const gameItems = document.querySelectorAll('.game-item');
-            let matched = false;
             gameItems.forEach(gi => {
-                if (!matched && gi.querySelector('span')?.textContent === cardName.replace('Nạp Xu ', '').replace('Nạp Cash ', '').replace('Nạp Gold ', '')) {
+                if (gi.querySelector('span')?.textContent === gameName) {
+                    e.preventDefault();
                     handleGameSelection(gi);
                     gi.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    matched = true;
                 }
             });
-            if (!matched) window.location.href = 'topup-guide.html';
         });
     });
 
