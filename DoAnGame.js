@@ -208,6 +208,18 @@ function handleGameSelection(element) {
     const gameImg = element.querySelector('.game-icon img')?.src;
     const gameData = GAME_DATA[gameName] || { currency: 'Xu', img: gameImg };
 
+    // 1. ĐỊNH NGHĨA ẢNH BANNER ĐẸP CHO TỪNG GAME
+    // Bạn có thể thêm bớt các game khác ở đây tùy ý nhé
+    const bannerMapping = {
+        'Liên Quân Mobile': 'images/BNLienquan.jpg',
+        'Free Fire': 'images/BNFreefire.jpg',
+        'Delta Force': 'images/BNDeltaforce.jpg',
+        'FC Online VN': 'images/BNFconl.jpg'
+    };
+
+    // Lấy ảnh banner tương ứng từ danh sách trên, nếu game nào không có thì dùng tạm gameImg làm dự phòng
+    const selectedBannerImg = bannerMapping[gameName] || gameImg;
+
     // Update sel-banner name, icon, and currency tag
     const selName = document.getElementById('selGameName');
     if (selName) selName.textContent = gameName;
@@ -218,9 +230,10 @@ function handleGameSelection(element) {
     const selIconImg = document.getElementById('selGameImg') || document.querySelector('.sel-icon img');
     if (selIconImg && gameImg) selIconImg.src = gameImg;
 
+    // 2. CẬP NHẬT ẢNH NỀN BANNER THEO ẢNH ĐẸP ĐÃ CHỌN
     const selBanner = document.querySelector('.sel-banner');
-    if (selBanner && gameImg) {
-        selBanner.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("${gameImg}")`;
+    if (selBanner && selectedBannerImg) {
+        selBanner.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("${selectedBannerImg}")`;
     }
 
     // Update order panel game name
@@ -239,7 +252,6 @@ function handleGameSelection(element) {
         if (oGem) oGem.textContent = selectedCard.querySelector('.amount-gem')?.textContent || '';
     }
 }
-
 function handleAmountSelection(element) {
     if (!getCurrentUser() || !isUserLoggedIn()) {
         showNotification('Vui lòng đăng nhập trước để chọn mệnh giá', 'warning');
