@@ -1580,3 +1580,176 @@ footer {
         padding: 20px 16px;
     }
 }
+
+/* ==================== GÓI NẠP THÁNG (Monthly Pass) ==================== */
+.month-divider {
+    border: none;
+    border-top: 1px dashed var(--border-normal);
+    margin: 18px 0 14px;
+}
+
+.month-pack {
+    border: 2px solid rgba(79, 70, 229, 0.22);
+    border-radius: 14px;
+    padding: 16px;
+    background:
+        radial-gradient(120% 140% at 0% 0%, rgba(79,70,229,0.06) 0%, rgba(255,255,255,0) 55%),
+        radial-gradient(120% 140% at 100% 0%, rgba(245,158,11,0.07) 0%, rgba(255,255,255,0) 55%),
+        var(--bg-main);
+    box-shadow: var(--shadow-sm);
+}
+
+.month-pack-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.month-pack-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.month-pack-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: #b45309;
+    background: rgba(245, 158, 11, 0.15);
+}
+
+.month-pack-guide {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.month-pack-guide:hover { text-decoration: underline; }
+
+.month-pack-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 6px 0 14px;
+    line-height: 1.5;
+}
+
+/* Thẻ gói */
+.mpack-card {
+    position: relative;
+    height: 100%;
+    border: 2px solid var(--border-normal);
+    border-radius: 12px;
+    padding: 14px 14px 16px;
+    background: var(--bg-surface);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.mpack-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+.mpack-card.selected {
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+/* Gói cơ bản (indigo) */
+.mpack-card.basic { border-color: rgba(79, 70, 229, 0.35); }
+.mpack-card.basic.selected { border-color: var(--color-primary); background: rgba(79,70,229,0.06); }
+.mpack-card.basic .mpack-badge { color: var(--color-primary); background: rgba(79,70,229,0.12); }
+.mpack-card.basic .mpack-price { color: var(--color-primary); }
+
+/* Gói VIP / cao cấp (vàng gold nổi bật) */
+.mpack-card.vip {
+    border-color: #f59e0b;
+    background: linear-gradient(160deg, #fffdf6 0%, #fff7e6 100%);
+}
+.mpack-card.vip.selected { box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3); }
+.mpack-card.vip .mpack-badge { color: #b45309; background: rgba(245, 158, 11, 0.18); }
+.mpack-card.vip .mpack-price { color: #b45309; }
+
+.mpack-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.mpack-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.mpack-price {
+    font-size: 19px;
+    font-weight: 800;
+}
+.mpack-price span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.mpack-reward {
+    font-size: 12px;
+    font-weight: 600;
+    color: #16a34a;
+    margin: 6px 0 8px;
+}
+
+.mpack-perks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.mpack-perks li {
+    position: relative;
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 2px 0 2px 18px;
+    line-height: 1.45;
+}
+.mpack-perks li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: #16a34a;
+    font-weight: 700;
+}
+
+.mpack-owned {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #16a34a;
+    background: rgba(34, 197, 94, 0.12);
+    border-radius: 8px;
+    padding: 5px 8px;
+    text-align: center;
+}
+.mpack-card.owned { border-style: solid; }
+
+/* Dòng phụ trong bảng lịch sử cho gói tháng */
+.tx-sub-pack {
+    margin-top: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #b45309;
+}
+.tx-sub-pack.expired { color: var(--text-muted); }

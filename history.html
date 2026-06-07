@@ -250,11 +250,22 @@ function renderTransactions(list) {
         const dot = GAME_DOT[tx.game] || 'lq';
         const badgeClass = tx.status === 'Thành công' ? 'badge-success' : tx.status === 'Thất bại' ? 'badge-fail' : 'badge-pending';
         const gem = tx.gem || '—';
+
+        // Gói nạp tháng: hiển thị trạng thái còn bao nhiêu ngày
+        let packSub = '';
+        if (tx.type === 'package' && tx.expiry) {
+            const diff = tx.expiry - Date.now();
+            const left = diff <= 0 ? 0 : Math.ceil(diff / 86400000);
+            packSub = left > 0
+                ? `<div class="tx-sub-pack">🎫 ${tx.note || 'Gói tháng'} · còn ${left} ngày</div>`
+                : `<div class="tx-sub-pack expired">🎫 ${tx.note || 'Gói tháng'} · đã hết hạn</div>`;
+        }
+
         return `<tr>
           <td class="tx-id">${tx.id || '—'}</td>
           <td><span class="tx-game"><span class="game-dot ${dot}"></span>${tx.game}</span></td>
           <td>${tx.amount}</td>
-          <td class="accent">${gem}</td>
+          <td class="accent">${gem}${packSub}</td>
           <td>${tx.payment}</td>
           <td class="tx-time">${tx.date}</td>
           <td><span class="badge ${badgeClass}">${tx.status}</span></td>

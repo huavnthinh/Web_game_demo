@@ -10,6 +10,42 @@ const GAME_DATA = {
 };
 const AMOUNT_QTY = ['20', '40', '102', '204', '408', '1.020', '2.090'];
 
+// ============================================
+// GÓI NẠP THÁNG (Monthly Pass) - mỗi game có ưu đãi khác biệt
+// basic = Gói Cơ Bản (125.000đ) · vip = Gói Cao Cấp/VIP (250.000đ)
+// ============================================
+const PACK_DAYS = 30; // Thời hạn mỗi gói (ngày)
+
+const MONTHLY_PACKAGES = {
+    'Liên Quân Mobile': {
+        basic: { name: 'Thẻ Tháng Chiến Binh', price: '125.000 đ', reward: '260 Xu + 15 Xu mỗi ngày',
+            perks: ['+5% Xu cho mỗi lần nạp lẻ', 'Khung avatar Đồng độc quyền'] },
+        vip:   { name: 'Thẻ Tháng Tư Lệnh', price: '250.000 đ', reward: '600 Xu + 40 Xu mỗi ngày',
+            perks: ['1 Tướng + 1 Trang phục ngẫu nhiên / tháng', '+12% Xu cho mỗi lần nạp lẻ', 'Khung Vàng VIP & hỗ trợ ưu tiên 24/7'] }
+    },
+    'Free Fire': {
+        basic: { name: 'Thông Hành Sinh Tồn', price: '125.000 đ', reward: '280 Kim Cương + 18 KC mỗi ngày',
+            perks: ['+5% Kim Cương mỗi lần nạp lẻ', 'Túi vật phẩm Bạc hàng tuần'] },
+        vip:   { name: 'Thông Hành Tinh Anh', price: '250.000 đ', reward: '650 Kim Cương + 45 KC mỗi ngày',
+            perks: ['Bộ skin súng độc quyền + thú cưng', '+12% Kim Cương mỗi lần nạp lẻ', 'Vòng quay VIP miễn phí mỗi tuần'] }
+    },
+    'FC Online VN': {
+        basic: { name: 'Hợp Đồng Tân Binh', price: '125.000 đ', reward: '270 NX Cash + 16 NX mỗi ngày',
+            perks: ['+5% NX Cash mỗi lần nạp lẻ', '1 gói thẻ cầu thủ ngẫu nhiên'] },
+        vip:   { name: 'Hợp Đồng Ngôi Sao', price: '250.000 đ', reward: '640 NX Cash + 42 NX mỗi ngày',
+            perks: ['1 thẻ cầu thủ ICON đảm bảo / tháng', '+12% NX Cash mỗi lần nạp lẻ', 'Nhân đôi EXP vào cuối tuần'] }
+    },
+    'Delta Force': {
+        basic: { name: 'Quân Nhu Tân Binh', price: '125.000 đ', reward: '260 Gold + 15 Gold mỗi ngày',
+            perks: ['+5% Gold mỗi lần nạp lẻ', 'Skin súng cơ bản độc quyền'] },
+        vip:   { name: 'Quân Nhu Đặc Nhiệm', price: '250.000 đ', reward: '620 Gold + 40 Gold mỗi ngày',
+            perks: ['Bộ giáp + skin súng Huyền Thoại', '+12% Gold mỗi lần nạp lẻ', 'Thẻ tăng tốc Battle Pass'] }
+    }
+};
+
+// Gói tháng đang được chọn để thanh toán (null nếu đang chọn mệnh giá thường)
+let selectedPackage = null;
+
 document.addEventListener('DOMContentLoaded', function() {
     initializeUserSession();
     setupEventListeners();
@@ -251,6 +287,113 @@ function handleGameSelection(element) {
         const oGem = document.getElementById('oGem');
         if (oGem) oGem.textContent = selectedCard.querySelector('.amount-gem')?.textContent || '';
     }
+
+    // Đổi game thì reset lựa chọn gói tháng & render lại 2 gói của game mới
+    selectedPackage = null;
+    renderMonthlyPackages(gameName);
+}
+
+/* ===== GÓI NẠP THÁNG ===== */
+// Số ngày còn lại của một gói dựa trên thời điểm hết hạn (ms)
+function daysLeft(expiryMs) {
+    const diff = expiryMs - Date.now();
+    return diff <= 0 ? 0 : Math.ceil(diff / 86400000);
+}
+
+// Tìm gói tháng đang còn hiệu lực của game (đọc từ lịch sử đã lưu theo tài khoản)
+function getActivePackage(gameName) {
+    const user = getCurrentUser();
+    if (!user || typeof getTransactionHistory !== 'function') return null;
+    const list = getTransactionHistory(user.email) || [];
+    const found = list.find(tx => tx.type === 'package' && tx.game === gameName &&
+        tx.status === 'Thành công' && tx.expiry && tx.expiry > Date.now());
+    return found || null;
+}
+
+// Render 2 thẻ gói (Cơ Bản + VIP) cho game đang chọn
+function renderMonthlyPackages(gameName) {
+    const grid = document.getElementById('monthPackGrid');
+    if (!grid) return;
+    const packs = MONTHLY_PACKAGES[gameName];
+    if (!packs) { grid.innerHTML = ''; return; }
+
+    const active = getActivePackage(gameName);
+
+    function cardHtml(tier, p) {
+        const isVip = tier === 'vip';
+        const owned = active && active.tier === tier;
+        const ownedBadge = owned
+            ? `<div class="mpack-owned">✓ Đang sở hữu · còn ${daysLeft(active.expiry)} ngày</div>`
+            : '';
+        const perks = p.perks.map(x => `<li>${x}</li>`).join('');
+        return `
+        <div class="col-12 col-md-6">
+            <div class="mpack-card ${isVip ? 'vip' : 'basic'} ${owned ? 'owned' : ''}"
+                 data-tier="${tier}" tabindex="0" role="button" aria-label="Chọn ${p.name}">
+                <div class="mpack-badge">${isVip ? '👑 VIP / Cao Cấp' : '⭐ Cơ Bản'}</div>
+                <div class="mpack-name">${p.name}</div>
+                <div class="mpack-price">${p.price}<span>/tháng</span></div>
+                <div class="mpack-reward">${p.reward}</div>
+                <ul class="mpack-perks">${perks}</ul>
+                ${ownedBadge}
+            </div>
+        </div>`;
+    }
+
+    grid.innerHTML = cardHtml('basic', packs.basic) + cardHtml('vip', packs.vip);
+
+    grid.querySelectorAll('.mpack-card').forEach(card => {
+        card.addEventListener('click', () => handlePackageSelection(card, gameName));
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handlePackageSelection(card, gameName); }
+        });
+    });
+}
+
+function handlePackageSelection(card, gameName) {
+    if (!getCurrentUser() || !isUserLoggedIn()) {
+        showNotification('Vui lòng đăng nhập trước để mua Gói Nạp Tháng', 'warning');
+        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        return;
+    }
+
+    const tier = card.dataset.tier;
+    const pack = MONTHLY_PACKAGES[gameName]?.[tier];
+    if (!pack) return;
+
+    // Bỏ chọn mệnh giá thường và các gói khác, đánh dấu gói này
+    document.querySelectorAll('.amount-card').forEach(e => e.classList.remove('selected'));
+    document.querySelectorAll('.mpack-card').forEach(e => e.classList.remove('selected'));
+    card.classList.add('selected');
+
+    const tierLabel = tier === 'vip' ? 'Gói VIP' : 'Gói Cơ Bản';
+    selectedPackage = { tier, tierLabel, name: pack.name, price: pack.price, reward: pack.reward };
+
+    // Đổ thông tin vào panel đơn hàng
+    const oAmount = document.getElementById('oAmount');
+    const oGem = document.getElementById('oGem');
+    const oTotal = document.getElementById('oTotal');
+    if (oAmount) oAmount.textContent = pack.price;
+    if (oGem) oGem.textContent = `${tierLabel} · ${pack.reward}`;
+    if (oTotal) oTotal.textContent = pack.price + ' VND';
+
+    const orderEmpty = document.getElementById('orderEmpty');
+    const orderDetail = document.getElementById('orderDetail');
+    if (orderEmpty) orderEmpty.style.display = 'none';
+    if (orderDetail) orderDetail.style.display = 'block';
+
+    showNotification(`Đã chọn ${pack.name} (${tierLabel})`, 'info');
+}
+
+// Gắn thông tin gói tháng vào giao dịch trước khi lưu (nếu đang chọn gói)
+function applyPackageFields(tx) {
+    if (!selectedPackage) return tx;
+    tx.type = 'package';
+    tx.tier = selectedPackage.tier;
+    tx.note = `${selectedPackage.tierLabel} (${PACK_DAYS} ngày)`;
+    tx.gem = `${selectedPackage.tierLabel} · ${selectedPackage.reward}`;
+    tx.expiry = Date.now() + PACK_DAYS * 86400000;
+    return tx;
 }
 function handleAmountSelection(element) {
     if (!getCurrentUser() || !isUserLoggedIn()) {
@@ -258,6 +401,10 @@ function handleAmountSelection(element) {
         setTimeout(() => { window.location.href = 'login.html'; }, 1500);
         return;
     }
+
+    // Chọn mệnh giá thường → huỷ chọn gói tháng (nếu có)
+    selectedPackage = null;
+    document.querySelectorAll('.mpack-card').forEach(e => e.classList.remove('selected'));
 
     document.querySelectorAll('.amount-card').forEach(e => e.classList.remove('selected'));
     element.classList.add('selected');
@@ -288,8 +435,8 @@ function handlePayment() {
     }
 
     const selectedAmount = document.querySelector('.amount-card.selected');
-    if (!selectedAmount) {
-        showNotification('Vui lòng chọn mệnh giá nạp', 'warning');
+    if (!selectedAmount && !selectedPackage) {
+        showNotification('Vui lòng chọn mệnh giá nạp hoặc Gói Nạp Tháng', 'warning');
         return;
     }
 
@@ -327,13 +474,13 @@ function confirmQRPayment() {
     const gem = document.getElementById('oGem')?.textContent || '';
     const payName = document.querySelector('input[name="payment"]:checked')?.closest('.pay-item')?.dataset.payName || 'QR';
 
-    logTransaction({
+    logTransaction(applyPackageFields({
         date: new Date().toLocaleString('vi-VN'),
         game, amount: vnd, gem, payment: payName,
         status: 'Thành công', user: currentUser?.displayName
-    });
+    }));
 
-    showNotification(`Nạp ${vnd} cho ${game} thành công!`, 'success');
+    showNotification(packPaidMsg(vnd, game), 'success');
     resetOrderForm();
 }
 
@@ -411,13 +558,13 @@ function submitCardPayment() {
         const gem = document.getElementById('oGem')?.textContent || '';
         const payName = document.querySelector('input[name="payment"]:checked')?.closest('.pay-item')?.dataset.payName || 'Thẻ';
 
-        logTransaction({
+        logTransaction(applyPackageFields({
             date: new Date().toLocaleString('vi-VN'),
             game, amount: vnd, gem, payment: payName,
             status: 'Thành công', user: currentUser?.displayName
-        });
+        }));
 
-        showNotification(`Nạp ${vnd} cho ${game} thành công!`, 'success');
+        showNotification(packPaidMsg(vnd, game), 'success');
         resetOrderForm();
     }, 2000);
 }
@@ -441,13 +588,13 @@ function simulatePayment(vnd, game, payName, currentUser) {
         payBtn.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
 
         const gem = document.getElementById('oGem')?.textContent || '';
-        logTransaction({
+        logTransaction(applyPackageFields({
             date: new Date().toLocaleString('vi-VN'),
             game, amount: vnd, gem, payment: payName,
             status: 'Thành công', user: currentUser.displayName
-        });
+        }));
 
-        showNotification(`Nạp ${vnd} cho ${game} thành công!`, 'success');
+        showNotification(packPaidMsg(vnd, game), 'success');
 
         setTimeout(() => {
             payBtn.textContent = originalText;
@@ -501,12 +648,26 @@ function setupCardInputFormatting() {
 }
 
 /* ===== Helpers ===== */
+// Thông báo phù hợp cho gói tháng hoặc nạp lẻ
+function packPaidMsg(vnd, game) {
+    if (selectedPackage) {
+        return `Kích hoạt ${selectedPackage.tierLabel} cho ${game} thành công! Hiệu lực ${PACK_DAYS} ngày.`;
+    }
+    return `Nạp ${vnd} cho ${game} thành công!`;
+}
+
 function resetOrderForm() {
     document.querySelectorAll('.amount-card').forEach(e => e.classList.remove('selected'));
+    document.querySelectorAll('.mpack-card').forEach(e => e.classList.remove('selected'));
+    selectedPackage = null;
     const orderEmpty = document.getElementById('orderEmpty');
     const orderDetail = document.getElementById('orderDetail');
     if (orderEmpty) orderEmpty.style.display = 'block';
     if (orderDetail) orderDetail.style.display = 'none';
+
+    // Làm mới nhãn "Đang sở hữu" cho game đang chọn (sau khi mua gói)
+    const activeGame = document.querySelector('.game-item.active span')?.textContent;
+    if (activeGame) renderMonthlyPackages(activeGame);
 }
 
 function showNotification(message, type = 'info') {
