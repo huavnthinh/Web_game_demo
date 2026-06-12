@@ -146,7 +146,7 @@ header {
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
-    background: #fff;
+    background: var(--bg-main);
     border: 1px solid var(--border-normal);
     border-radius: 8px;
     width: 210px;
@@ -245,7 +245,7 @@ header {
     top: auto;
     right: 20px;
     bottom: auto;
-    background: #ffffff;
+    background: var(--bg-main);
     border: 1px solid var(--border-normal);
     border-radius: 12px;
     width: 230px;
@@ -429,7 +429,7 @@ header {
 
 /* ===== CARD ===== */
 .card {
-    background: #ffffff;
+    background: var(--bg-main);
     border: 1px solid var(--border-normal);
     border-radius: 12px;
     padding: 14px;
@@ -640,7 +640,7 @@ header {
     .input-row input:focus {
         outline: none;
         border-color: var(--color-primary);
-        background: #ffffff;
+        background: var(--bg-main);
         box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
     }
 
@@ -1037,7 +1037,7 @@ hr {
     border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
-    background: #ffffff;
+    background: var(--bg-main);
     transition: all 0.3s ease;
 }
 
@@ -1753,3 +1753,103 @@ footer {
     color: #b45309;
 }
 .tx-sub-pack.expired { color: var(--text-muted); }
+
+/* ============================================
+   DARK MODE — lật bộ biến màu khi <html data-theme="dark">
+   ============================================ */
+[data-theme="dark"] {
+    --bg-main: #1e293b;        /* nền card */
+    --bg-surface: #0f172a;     /* nền lõm/insets */
+    --bg-input: #0f172a;
+    --color-primary: #6366f1;
+    --color-accent: #22d3ee;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border-normal: #334155;
+    --border-focus: #6366f1;
+    --border-dark: #334155;
+    --primary-glow: rgba(99, 102, 241, 0.25);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, #0b1120 0%, #0f172a 55%, #1e293b 100%);
+    background-attachment: fixed;
+}
+
+[data-theme="dark"] header {
+    background: rgba(2, 6, 23, 0.92);
+    border-bottom-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Lưới nền mờ hợp tông tối hơn */
+[data-theme="dark"] body::before {
+    background-image:
+        linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+}
+
+/* ============================================
+   TÌM KIẾM & LỌC GAME (trang nạp thẻ)
+   ============================================ */
+.game-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+.game-search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-normal);
+    border-radius: 10px;
+    color: var(--text-muted);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+.game-search-wrap:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+.game-search-wrap input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-family: inherit;
+}
+.game-filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.gchip {
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border-normal);
+    background: var(--bg-main);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+.gchip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.gchip.active {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    border-color: transparent;
+    color: #fff;
+}
+.game-no-result {
+    text-align: center;
+    padding: 26px 12px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+}

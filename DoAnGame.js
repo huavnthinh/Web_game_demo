@@ -18,10 +18,10 @@ const PACK_DAYS = 30; // Thời hạn mỗi gói (ngày)
 
 const MONTHLY_PACKAGES = {
     'Liên Quân Mobile': {
-        basic: { name: 'Thẻ Tháng Chiến Binh', price: '125.000 đ', reward: '260 Xu + 15 Xu mỗi ngày',
+        basic: { name: 'Sổ sứ mệnh (Chiến Binh Mùa Đông)', price: '100.000 đ', reward: '260 Xu + 15 Xu mỗi ngày + Skin bậc s+ tự chọn',
             perks: ['+5% Xu cho mỗi lần nạp lẻ', 'Khung avatar Đồng độc quyền'] },
-        vip:   { name: 'Thẻ Tháng Tư Lệnh', price: '250.000 đ', reward: '600 Xu + 40 Xu mỗi ngày',
-            perks: ['1 Tướng + 1 Trang phục ngẫu nhiên / tháng', '+12% Xu cho mỗi lần nạp lẻ', 'Khung Vàng VIP & hỗ trợ ưu tiên 24/7'] }
+        vip:   { name: 'Sổ sứ mệnh (Chiến Binh Mùa Đông) cao cấp', price: '250.000 đ', reward: '600 Xu + 40 Xu mỗi ngày',
+            perks: ['1 Tướng + 1 Trang phục ngẫu nhiên / Tuần', '+12% Xu cho mỗi lần nạp lẻ', 'Khung Vàng VIP & hỗ trợ ưu tiên 24/7','Đặt quyền mua skin SS cực chất'] }
     },
     'Free Fire': {
         basic: { name: 'Thông Hành Sinh Tồn', price: '125.000 đ', reward: '280 Kim Cương + 18 KC mỗi ngày',
@@ -50,9 +50,55 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeUserSession();
     setupEventListeners();
     setupCardInputFormatting();
+    setupGameSearch();
     handleHashGameSelection();
     initSelBanner();
 });
+
+// ============================================
+// TÌM KIẾM & LỌC GAME theo tên + nhà phát hành
+// ============================================
+const GAME_PUBLISHER = {
+    'Liên Quân Mobile': 'Garena',
+    'Free Fire': 'Garena',
+    'FC Online VN': 'EA Sports',
+    'Delta Force': 'TiMi Studio'
+};
+
+function setupGameSearch() {
+    const search = document.getElementById('gameSearch');
+    const chips = document.querySelectorAll('.gchip');
+    const items = document.querySelectorAll('.game-item');
+    const noResult = document.getElementById('gameNoResult');
+    if (!items.length) return;
+
+    let activePub = '';
+
+    function applyGameFilter() {
+        const q = (search?.value || '').trim().toLowerCase();
+        let visible = 0;
+        items.forEach(item => {
+            const name = item.querySelector('span')?.textContent || '';
+            const pub = GAME_PUBLISHER[name] || '';
+            const matchName = !q || name.toLowerCase().includes(q);
+            const matchPub = !activePub || pub === activePub;
+            const show = matchName && matchPub;
+            item.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        if (noResult) noResult.style.display = visible ? 'none' : 'block';
+    }
+
+    if (search) search.addEventListener('input', applyGameFilter);
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            activePub = chip.dataset.pub || '';
+            applyGameFilter();
+        });
+    });
+}
 
 function initSelBanner() {
     const firstGame = document.querySelector('.game-item.active');
@@ -330,7 +376,7 @@ function renderMonthlyPackages(gameName) {
         <div class="col-12 col-md-6">
             <div class="mpack-card ${isVip ? 'vip' : 'basic'} ${owned ? 'owned' : ''}"
                  data-tier="${tier}" tabindex="0" role="button" aria-label="Chọn ${p.name}">
-                <div class="mpack-badge">${isVip ? '👑 VIP / Cao Cấp' : '⭐ Cơ Bản'}</div>
+                <div class="mpack-badge">${isVip ? 'VIP / Cao Cấp' : 'Cơ Bản'}</div>
                 <div class="mpack-name">${p.name}</div>
                 <div class="mpack-price">${p.price}<span>/tháng</span></div>
                 <div class="mpack-reward">${p.reward}</div>
@@ -723,12 +769,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Enhanced logout with confirmation
-function logout() {
-    if (!confirm('Bạn có chắc chắn muốn đăng xuất?')) return;
-
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('isLoggedIn');
-    showNotification('Đã đăng xuất thành công', 'success');
-    setTimeout(() => { window.location.href = 'login.html'; }, 1000);
-}
+// logout() được định nghĩa tập trung trong auth.js (đã có confirm + showNotification).

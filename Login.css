@@ -697,3 +697,37 @@ body.auth-page::before {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* ============================================
+   DARK MODE — trang đăng nhập / đăng ký
+   ============================================ */
+[data-theme="dark"] {
+    --bg-card: #1e293b;
+    --bg-input: #0f172a;
+    --border-color: #334155;
+    --border-focus: #6366f1;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-desc: #64748b;
+    --primary-color: #6366f1;
+    --primary-glow: rgba(99, 102, 241, 0.25);
+}
+
+[data-theme="dark"] body.auth-page {
+    background: linear-gradient(135deg, #0b1120 0%, #0f172a 55%, #1e293b 100%);
+}
+
+[data-theme="dark"] .auth-card,
+[data-theme="dark"] .auth-body {
+    background: #1e293b;
+}
+
+[data-theme="dark"] .field-input,
+[data-theme="dark"] .field-input:focus {
+    background: #0f172a;
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .auth-divider span {
+    background: #1e293b;
+}

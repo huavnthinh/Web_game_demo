@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nạp thẻ game</title>
-    <link href="./bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="DoAnGame.css">
 </head>
 <body>
@@ -46,11 +46,11 @@
                         <div class="user-level" id="userLevel">Lv. 0</div>
                     </div>
                     <hr>
-                    <a href="#" class="menu-item">⚙️ Cài đặt</a>
-                    <a href="history.html" class="menu-item">💰 Lịch sử nạp thẻ</a>
-                    <a href="topup-guide.html" class="menu-item">📖 Hướng dẫn nạp thẻ</a>
+                    <a href="profile.html" class="menu-item">Hồ sơ của tôi</a>
+                    <a href="history.html" class="menu-item">Lịch sử nạp thẻ</a>
+                    <a href="topup-guide.html" class="menu-item">Hướng dẫn nạp thẻ</a>
                     <hr>
-                    <a href="javascript:logout()" class="menu-item logout">🚪 Đăng xuất</a>
+                    <a href="javascript:logout()" class="menu-item logout">Đăng xuất</a>
                 </div>
                 <a href="login.html" class="btn-login" id="loginBtn">Đăng nhập</a>
             </div>
@@ -112,7 +112,7 @@
                             <p class="banner-sub">An toàn - Uy tín - Chiết khấu cao cho sinh viên</p>
                         </div>
                         <div class="banner-logo">
-                            <div class="huit-box shop">$</div>
+                            <div class="huit-box shop">Uy Tín Chất Lượng</div>
                             <div class="huit-name">Hệ Thống Nạp Thẻ</div>
                             <a class="huit-link-btn" href="#topup">Nạp Thẻ Ngay</a>
                         </div>
@@ -136,6 +136,18 @@
             <div class="card-title">
                 Lựa chọn trò chơi
                 <span class="game-count">4 game</span>
+            </div>
+            <div class="game-search-bar">
+                <div class="game-search-wrap">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="gameSearch" placeholder="Tìm game theo tên..." aria-label="Tìm game">
+                </div>
+                <div class="game-filter-chips">
+                    <button type="button" class="gchip active" data-pub="">Tất cả</button>
+                    <button type="button" class="gchip" data-pub="Garena">Garena</button>
+                    <button type="button" class="gchip" data-pub="EA Sports">EA Sports</button>
+                    <button type="button" class="gchip" data-pub="TiMi Studio">TiMi</button>
+                </div>
             </div>
             <div class="game-list">
                 <div class="game-item active" tabindex="0" role="button" aria-label="Chọn Liên Quân Mobile">
@@ -163,6 +175,7 @@
                     <span>Delta Force</span>
                 </div>
             </div>
+            <div id="gameNoResult" class="game-no-result" style="display:none">🔍 Không tìm thấy game phù hợp</div>
         </div>
 
 
@@ -272,7 +285,7 @@
                     <hr class="month-divider">
                     <div class="month-pack" id="monthPack">
                         <div class="month-pack-head">
-                            <div class="month-pack-title">🎫 Gói Nạp Tháng <span class="month-pack-tag">Ưu đãi đặc quyền</span></div>
+                            <div class="month-pack-title">Gói Nạp Tháng <span class="month-pack-tag">Ưu đãi đặc quyền</span></div>
                             <a class="month-pack-guide" href="topup-guide.html#monthly">Ưu đãi gồm những gì? →</a>
                         </div>
                         <p class="month-pack-desc">Đăng ký 1 lần, nhận quyền lợi ưu tiên trong suốt 30 ngày. Áp dụng riêng cho từng tựa game.</p>
@@ -438,7 +451,7 @@
             <hr>
             <div class="footer-bottom">
                 <span>© 2026 Game Online · Nạp game uy tín </span>
-                <span>HUIT — Ho Chi Minh City University of Industry and Trade</span>
+                <span>Make With Thiet Ke Web - teacher: Mạnh Thiên Lý</span>
             </div>
         </div>
     </footer>
@@ -509,6 +522,7 @@
     </div>
 
     <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="theme.js"></script>
     <script src="auth.js"></script>
     <script src="historyData.js"></script>
     <script src="DoAnGame.js"></script>

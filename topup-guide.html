@@ -48,11 +48,12 @@
           <div class="user-level" id="userLevel">Lv. 0</div>
         </div>
         <hr>
-        <a href="DoAnGame.html" class="menu-item">🎮 Nạp thẻ game</a>
-        <a href="history.html" class="menu-item">💰 Lịch sử nạp thẻ</a>
-        <a href="topup-guide.html" class="menu-item">📖 Hướng dẫn nạp thẻ</a>
+        <a href="profile.html" class="menu-item">👤 Hồ sơ của tôi</a>
+        <a href="DoAnGame.html" class="menu-item">Nạp thẻ game</a>
+        <a href="history.html" class="menu-item">Lịch sử nạp thẻ</a>
+        <a href="topup-guide.html" class="menu-item">Hướng dẫn nạp thẻ</a>
         <hr>
-        <a href="javascript:doLogout()" class="menu-item logout">🚪 Đăng xuất</a>
+        <a href="javascript:doLogout()" class="menu-item logout">Đăng xuất</a>
       </div>
       <a href="login.html" class="btn-login" id="loginBtn">Đăng nhập</a>
     </div>
@@ -121,21 +122,21 @@
 
   <!-- Gói Nạp Tháng -->
   <div class="card" id="monthly">
-    <div class="card-title">Gói Nạp Tháng là gì? 🎫</div>
+    <div class="card-title">Gói Nạp Tháng là gì?</div>
     <div class="alert-info" style="margin-bottom:16px;">
       <strong>Gói Nạp Tháng</strong> là gói ưu đãi đăng ký <strong>một lần</strong>, mang lại quyền lợi ưu tiên cho người chơi trong suốt <strong>30 ngày</strong>: nhận tiền tệ game ngay khi kích hoạt, cộng thêm tiền tệ <strong>mỗi ngày</strong>, tăng % thưởng khi nạp lẻ và nhiều vật phẩm độc quyền. Mỗi tựa game có ưu đãi <strong>khác biệt</strong> riêng. Bạn cần <a href="login.html" style="color:var(--color-primary);font-weight:600;">đăng nhập</a> trước khi mua, và gói sẽ được lưu vào <a href="history.html" style="color:var(--color-primary);font-weight:600;">lịch sử giao dịch</a> kèm số ngày còn lại.
     </div>
 
     <div class="guide-monthly-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:16px;">
       <div style="border:2px solid rgba(79,70,229,0.35);border-radius:12px;padding:14px;background:var(--bg-surface);">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--color-primary);">⭐ Gói Cơ Bản</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--color-primary);">Gói Cơ Bản</div>
         <div style="font-size:19px;font-weight:800;color:var(--color-primary);margin:4px 0;">125.000 đ<span style="font-size:11px;color:var(--text-muted);font-weight:600;">/tháng</span></div>
         <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0;">Tiền tệ nhận ngay + thưởng mỗi ngày, <strong>+5%</strong> khi nạp lẻ và 1 vật phẩm cơ bản độc quyền. Phù hợp người chơi thường xuyên muốn tiết kiệm.</p>
       </div>
       <div style="border:2px solid #f59e0b;border-radius:12px;padding:14px;background:linear-gradient(160deg,#fffdf6 0%,#fff7e6 100%);">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#b45309;">👑 Gói Cao Cấp / VIP</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#b45309;">Gói Cao Cấp / VIP</div>
         <div style="font-size:19px;font-weight:800;color:#b45309;margin:4px 0;">250.000 đ<span style="font-size:11px;color:var(--text-muted);font-weight:600;">/tháng</span></div>
-        <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0;">Toàn bộ quyền lợi gói Cơ Bản nhưng <strong>nhiều hơn hẳn</strong>: tiền tệ gấp đôi, <strong>+12%</strong> khi nạp lẻ, vật phẩm/skin huyền thoại độc quyền và hỗ trợ ưu tiên 24/7.</p>
+        <p style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin:0;">Toàn bộ quyền lợi gói Cơ Bản và có thêm <strong>nhiều quyền lợi như</strong>: tiền tệ gấp đôi, <strong>+12%</strong> khi nạp lẻ, vật phẩm/skin huyền thoại độc quyền và hỗ trợ ưu tiên 24/7.</p>
       </div>
     </div>
 
@@ -275,6 +276,7 @@
   </div>
 </footer>
 
+<script src="theme.js"></script>
 <script src="auth.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -332,11 +334,7 @@ function toggleFaq(el) {
     item.classList.toggle('open');
 }
 
-function doLogout() {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('isLoggedIn');
-    window.location.href = 'login.html';
-}
+// doLogout()/logout() dùng chung từ auth.js
 </script>
 </body>
 </html>

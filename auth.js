@@ -222,13 +222,27 @@ function quickLogin(provider) {
     setTimeout(() => handleLogin(), 300);
 }
 
-// Logout function (sử dụng từ DoAnGame.html)
+// ============================================
+// Logout dùng chung cho TẤT CẢ các trang.
+// Có xác nhận; dùng thông báo đẹp nếu trang có showNotification().
+// ============================================
 function logout() {
+    if (!confirm('Bạn có chắc chắn muốn đăng xuất?')) return;
+
     localStorage.removeItem('currentUser');
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('sessionId');
-    window.location.href = 'login.html';
+
+    if (typeof showNotification === 'function') {
+        showNotification('Đã đăng xuất thành công', 'success');
+        setTimeout(() => { window.location.href = 'login.html'; }, 1000);
+    } else {
+        window.location.href = 'login.html';
+    }
 }
+
+// Alias cho các trang đang gọi doLogout()
+function doLogout() { logout(); }
 
 // Get current user
 function getCurrentUser() {

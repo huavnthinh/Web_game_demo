@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hồ sơ của tôi — EGSP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="DoAnGame.css" />
+  <style>
+    /* ===== Hồ sơ ===== */
+    .pf-hero {
+      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+      padding: 24px;
+      border-radius: 16px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+      box-shadow: var(--shadow-md);
+      margin-top: 18px;
+    }
+    .pf-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      border: 2px solid rgba(255,255,255,.7);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; font-weight: 700; font-family: 'Rajdhani', sans-serif;
+    }
+    .pf-hero-info { flex: 1; min-width: 180px; }
+    .pf-hero-name { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; }
+    .pf-hero-meta { font-size: 13px; opacity: .95; margin-top: 2px; }
+    .pf-level-badge {
+      display: inline-block; margin-top: 8px;
+      padding: 3px 12px; border-radius: 20px;
+      background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.5);
+      font-size: 12px; font-weight: 700;
+    }
+    .pf-balance { text-align: right; }
+    .pf-balance-num { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; }
+    .pf-balance-label { font-size: 12px; opacity: .9; }
+
+    .pf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 720px) { .pf-grid { grid-template-columns: 1fr; } }
+
+    .pf-field { margin-bottom: 14px; }
+    .pf-readonly {
+      padding: 10px 12px; border-radius: 8px;
+      background: var(--bg-surface); border: 1px solid var(--border-normal);
+      color: var(--text-secondary); font-size: 14px;
+    }
+    .pf-msg { font-size: 13px; margin-top: 8px; min-height: 18px; font-weight: 600; }
+    .pf-msg.ok { color: var(--color-success); }
+    .pf-msg.err { color: var(--color-error); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-top">
+    <div class="nav-left">
+      <div class="logo-box"></div>
+      <span class="logo-text">EGSP</span>
+      <div class="nav-divider"></div>
+      <div class="hamburger" id="hamburgerBtn"><span></span><span></span><span></span></div>
+      <div class="dropdown" id="navDropdown">
+        <div class="dd-section">
+          <div class="dd-label">Trò chơi</div>
+          <a class="dd-item" href="DoAnGame.html#lienquan">Liên Quân Mobile</a>
+          <a class="dd-item" href="DoAnGame.html#freefire">Free Fire</a>
+          <a class="dd-item" href="DoAnGame.html#fconline">FC Online VN</a>
+          <a class="dd-item" href="DoAnGame.html#deltaforce">Delta Force</a>
+        </div>
+        <div class="dd-section">
+          <div class="dd-label">Tài khoản</div>
+          <a class="dd-item" id="ddLoginItem" href="login.html">Đăng nhập</a>
+          <a class="dd-item" id="ddLogoutItem" href="javascript:logout()" style="display:none">Đăng xuất</a>
+          <a class="dd-item" href="history.html">Lịch sử giao dịch</a>
+        </div>
+        <div class="dd-section">
+          <div class="dd-label">Hỗ trợ</div>
+          <a class="dd-item" href="topup-guide.html">Hướng dẫn nạp thẻ</a>
+          <a class="dd-item" href="index.html">Trang chủ</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="avatar" id="userAvatar" title="Profile" style="display:none"></div>
+      <div id="userMenu" class="user-menu">
+        <div class="user-info">
+          <div class="user-name" id="userName">Chiến Binh</div>
+          <div class="user-level" id="userLevel">Lv. 0</div>
+        </div>
+        <hr>
+        <a href="DoAnGame.html" class="menu-item">Nạp thẻ game</a>
+        <a href="history.html" class="menu-item">Lịch sử nạp thẻ</a>
+        <hr>
+        <a href="javascript:logout()" class="menu-item logout">Đăng xuất</a>
+      </div>
+      <a href="login.html" class="btn-login" id="loginBtn">Đăng nhập</a>
+    </div>
+  </div>
+</header>
+
+<main class="container" style="padding-top:6px">
+
+  <div class="page-heading">
+    <h1 class="page-title">Hồ sơ của tôi</h1>
+    <p class="page-sub">Quản lý thông tin tài khoản và bảo mật</p>
+  </div>
+
+  <!-- CHƯA ĐĂNG NHẬP -->
+  <div id="notLoggedInState" style="display:none">
+    <div class="card" style="text-align:center;padding:40px 20px;">
+      <div style="font-size:40px;margin-bottom:12px;">🔐</div>
+      <div style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Vui lòng đăng nhập</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Bạn cần đăng nhập để xem hồ sơ tài khoản</p>
+      <a href="login.html" class="btn-red" style="display:inline-block;text-decoration:none;padding:10px 24px;">Đăng nhập ngay</a>
+    </div>
+  </div>
+
+  <!-- ĐÃ ĐĂNG NHẬP -->
+  <div id="loggedInState" style="display:none">
+
+    <!-- HERO -->
+    <section class="pf-hero">
+      <div class="pf-avatar" id="pfAvatar">U</div>
+      <div class="pf-hero-info">
+        <div class="pf-hero-name" id="pfName">—</div>
+        <div class="pf-hero-meta" id="pfEmail">—</div>
+        <span class="pf-level-badge" id="pfLevel">Lv. 0</span>
+      </div>
+      <div class="pf-balance">
+        <div class="pf-balance-num" id="pfBalance">0 đ</div>
+        <div class="pf-balance-label">Số dư ví</div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-row" style="margin-top:16px">
+      <div class="stat-card"><div class="stat-val" id="stTotal">0</div><div class="stat-label">Giao dịch</div></div>
+      <div class="stat-card"><div class="stat-val accent" id="stAmount">0 đ</div><div class="stat-label">Tổng nạp</div></div>
+      <div class="stat-card"><div class="stat-val" id="stSuccess" style="color:#22c55e">0</div><div class="stat-label">Thành công</div></div>
+      <div class="stat-card"><div class="stat-val" id="stPack">0</div><div class="stat-label">Gói tháng</div></div>
+    </div>
+
+    <div class="pf-grid" style="margin-top:16px">
+
+      <!-- THÔNG TIN -->
+      <div class="card">
+        <div class="card-title">Thông tin tài khoản</div>
+
+        <div class="pf-field">
+          <label class="field-label">Tên hiển thị</label>
+          <div class="field-wrap">
+            <input type="text" class="field-input" id="editName" placeholder="Tên hiển thị" />
+          </div>
+        </div>
+
+        <div class="pf-field">
+          <label class="field-label">Email</label>
+          <div class="pf-readonly" id="roEmail">—</div>
+        </div>
+
+        <div class="pf-field">
+          <label class="field-label">Tên đăng nhập</label>
+          <div class="pf-readonly" id="roUsername">—</div>
+        </div>
+
+        <button class="btn-red" style="width:100%;height:40px;" onclick="saveProfile()">Lưu thay đổi</button>
+        <div class="pf-msg" id="infoMsg"></div>
+      </div>
+
+      <!-- ĐỔI MẬT KHẨU -->
+      <div class="card">
+        <div class="card-title">Đổi mật khẩu</div>
+
+        <div class="pf-field">
+          <label class="field-label">Mật khẩu hiện tại</label>
+          <div class="field-wrap"><input type="password" class="field-input" id="curPw" placeholder="Nhập mật khẩu hiện tại" /></div>
+        </div>
+        <div class="pf-field">
+          <label class="field-label">Mật khẩu mới</label>
+          <div class="field-wrap"><input type="password" class="field-input" id="newPw" placeholder="≥ 8 ký tự, có chữ hoa và số" /></div>
+        </div>
+        <div class="pf-field">
+          <label class="field-label">Xác nhận mật khẩu mới</label>
+          <div class="field-wrap"><input type="password" class="field-input" id="cfPw" placeholder="Nhập lại mật khẩu mới" /></div>
+        </div>
+
+        <button class="btn-red" style="width:100%;height:40px;" onclick="changePassword()">Cập nhật mật khẩu</button>
+        <div class="pf-msg" id="pwMsg"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Game Online · Nạp game uy tín</span>
+      <span>Make With Thiet Ke Web - teacher: Mạnh Thiên Lý</span>
+    </div>
+  </div>
+</footer>
+
+<script src="theme.js"></script>
+<script src="auth.js"></script>
+<script src="historyData.js"></script>
+<script>
+// Thông báo nổi (logout() trong auth.js sẽ tự dùng hàm này nếu có)
+function showNotification(message, type) {
+  const colors = { success:'#22c55e', warning:'#f59e0b', error:'#ef4444', info:'#4f46e5' };
+  const n = document.createElement('div');
+  n.textContent = message;
+  n.style.cssText = `position:fixed;top:72px;right:20px;max-width:320px;padding:14px 18px;
+    background:${colors[type]||colors.info};color:#fff;border-radius:10px;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);z-index:4500;font-size:14px;font-weight:500;line-height:1.4;`;
+  document.body.appendChild(n);
+  setTimeout(() => n.remove(), 3000);
+}
+
+function setMsg(id, text, ok) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'pf-msg ' + (ok ? 'ok' : 'err');
+}
+
+function getAccounts() { return JSON.parse(localStorage.getItem('gameAccounts') || '[]'); }
+function findAccountIndex(accounts, user) {
+  return accounts.findIndex(a => a.email === user.email || a.username === user.username);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const user = getCurrentUser();
+  const loggedIn = isUserLoggedIn();
+
+  if (!user || !loggedIn) {
+    document.getElementById('notLoggedInState').style.display = 'block';
+    document.getElementById('loggedInState').style.display = 'none';
+    document.getElementById('ddLoginItem').style.display = 'block';
+    document.getElementById('ddLogoutItem').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('loggedInState').style.display = 'block';
+  document.getElementById('notLoggedInState').style.display = 'none';
+
+  // Header
+  document.getElementById('loginBtn').style.display = 'none';
+  const avatar = document.getElementById('userAvatar');
+  const initial = (user.displayName || 'U').charAt(0).toUpperCase();
+  avatar.style.display = 'flex';
+  avatar.textContent = initial;
+  document.getElementById('userName').textContent = user.displayName;
+  document.getElementById('userLevel').textContent = 'Lv. ' + user.level;
+  document.getElementById('ddLoginItem').style.display = 'none';
+  document.getElementById('ddLogoutItem').style.display = 'block';
+
+  // Hero
+  document.getElementById('pfAvatar').textContent = initial;
+  document.getElementById('pfName').textContent = user.displayName;
+  document.getElementById('pfEmail').textContent = user.email;
+  document.getElementById('pfLevel').textContent = 'Lv. ' + user.level;
+  document.getElementById('pfBalance').textContent = (user.balance || 0).toLocaleString('vi-VN') + ' đ';
+
+  // Form info
+  document.getElementById('editName').value = user.displayName || '';
+  document.getElementById('roEmail').textContent = user.email || '—';
+  document.getElementById('roUsername').textContent = user.username || '—';
+
+  // Thống kê từ lịch sử
+  const tx = getTransactionHistory(user.email) || [];
+  const success = tx.filter(t => t.status === 'Thành công');
+  const totalAmount = success.reduce((s, t) => s + parseInt((t.amount || '').replace(/[^\d]/g, '') || '0'), 0);
+  const packs = tx.filter(t => t.type === 'package').length;
+  document.getElementById('stTotal').textContent = tx.length;
+  document.getElementById('stAmount').textContent = totalAmount.toLocaleString('vi-VN') + ' đ';
+  document.getElementById('stSuccess').textContent = success.length;
+  document.getElementById('stPack').textContent = packs;
+
+  // Menu avatar
+  const menu = document.getElementById('userMenu');
+  avatar.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = menu.style.display === 'block';
+    menu.style.display = open ? 'none' : 'block';
+    menu.style.opacity = open ? '0' : '1';
+    menu.style.visibility = open ? 'hidden' : 'visible';
+    if (!open) {
+      const r = avatar.getBoundingClientRect();
+      menu.style.top = (r.bottom + 8) + 'px';
+      menu.style.right = (window.innerWidth - r.right) + 'px';
+    }
+  });
+  document.addEventListener('click', e => {
+    if (!menu.contains(e.target) && !avatar.contains(e.target)) {
+      menu.style.display = 'none'; menu.style.opacity = '0'; menu.style.visibility = 'hidden';
+    }
+  });
+
+  // Hamburger
+  const hbtn = document.getElementById('hamburgerBtn');
+  const navLeft = document.querySelector('.nav-left');
+  hbtn.addEventListener('click', e => { e.stopPropagation(); navLeft.classList.toggle('menu-open'); });
+  document.addEventListener('click', e => { if (!navLeft.contains(e.target)) navLeft.classList.remove('menu-open'); });
+});
+
+function saveProfile() {
+  const name = document.getElementById('editName').value.trim();
+  if (name.length < 2) { setMsg('infoMsg', 'Tên hiển thị phải có ít nhất 2 ký tự', false); return; }
+
+  const user = getCurrentUser();
+  const accounts = getAccounts();
+  const idx = findAccountIndex(accounts, user);
+  if (idx >= 0) {
+    accounts[idx].displayName = name;
+    localStorage.setItem('gameAccounts', JSON.stringify(accounts));
+  }
+  user.displayName = name;
+  localStorage.setItem('currentUser', JSON.stringify(user));
+
+  // Cập nhật lại giao diện
+  const initial = name.charAt(0).toUpperCase();
+  document.getElementById('userName').textContent = name;
+  document.getElementById('userAvatar').textContent = initial;
+  document.getElementById('pfName').textContent = name;
+  document.getElementById('pfAvatar').textContent = initial;
+
+  setMsg('infoMsg', '✓ Đã lưu thông tin', true);
+  showNotification('Cập nhật hồ sơ thành công', 'success');
+}
+
+function changePassword() {
+  const cur = document.getElementById('curPw').value;
+  const np = document.getElementById('newPw').value;
+  const cf = document.getElementById('cfPw').value;
+
+  if (!cur || !np || !cf) { setMsg('pwMsg', 'Vui lòng nhập đầy đủ các trường', false); return; }
+
+  const user = getCurrentUser();
+  const accounts = getAccounts();
+  const idx = findAccountIndex(accounts, user);
+  if (idx < 0) { setMsg('pwMsg', 'Không tìm thấy tài khoản trong hệ thống', false); return; }
+  if (accounts[idx].password !== cur) { setMsg('pwMsg', 'Mật khẩu hiện tại không đúng', false); return; }
+  if (np.length < 8 || !/[A-Z]/.test(np) || !/[0-9]/.test(np)) {
+    setMsg('pwMsg', 'Mật khẩu mới cần ≥ 8 ký tự, có chữ hoa và số', false); return;
+  }
+  if (np !== cf) { setMsg('pwMsg', 'Xác nhận mật khẩu không khớp', false); return; }
+  if (np === cur) { setMsg('pwMsg', 'Mật khẩu mới phải khác mật khẩu cũ', false); return; }
+
+  accounts[idx].password = np;
+  localStorage.setItem('gameAccounts', JSON.stringify(accounts));
+
+  document.getElementById('curPw').value = '';
+  document.getElementById('newPw').value = '';
+  document.getElementById('cfPw').value = '';
+
+  setMsg('pwMsg', '✓ Đổi mật khẩu thành công', true);
+  showNotification('Đổi mật khẩu thành công', 'success');
+}
+</script>
+</body>
+</html>
