@@ -1,56 +1,124 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hồ sơ của tôi — EGSP</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="DoAnGame.css" />
-  <style>
-    /* ===== Hồ sơ ===== */
-    .pf-hero {
-      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-      padding: 24px;
-      border-radius: 16px;
-      color: #fff;
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-      box-shadow: var(--shadow-md);
-      margin-top: 18px;
-    }
-    .pf-avatar {
-      width: 72px; height: 72px; border-radius: 50%;
-      background: rgba(255,255,255,.2);
-      border: 2px solid rgba(255,255,255,.7);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 30px; font-weight: 700; font-family: 'Rajdhani', sans-serif;
-    }
-    .pf-hero-info { flex: 1; min-width: 180px; }
-    .pf-hero-name { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; }
-    .pf-hero-meta { font-size: 13px; opacity: .95; margin-top: 2px; }
-    .pf-level-badge {
-      display: inline-block; margin-top: 8px;
-      padding: 3px 12px; border-radius: 20px;
-      background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.5);
-      font-size: 12px; font-weight: 700;
-    }
-    .pf-balance { text-align: right; }
-    .pf-balance-num { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; }
-    .pf-balance-label { font-size: 12px; opacity: .9; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hồ sơ của tôi — EGSP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/DoAnGame.css" />
+    <style>
+        /* ===== Hồ sơ ===== */
+        .pf-hero {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            padding: 24px;
+            border-radius: 16px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+            box-shadow: var(--shadow-md);
+            margin-top: 18px;
+        }
 
-    .pf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 720px) { .pf-grid { grid-template-columns: 1fr; } }
+        .pf-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.2);
+            border: 2px solid rgba(255,255,255,.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 700;
+            font-family: 'Rajdhani', sans-serif;
+        }
 
-    .pf-field { margin-bottom: 14px; }
-    .pf-readonly {
-      padding: 10px 12px; border-radius: 8px;
-      background: var(--bg-surface); border: 1px solid var(--border-normal);
-      color: var(--text-secondary); font-size: 14px;
-    }
-    .pf-msg { font-size: 13px; margin-top: 8px; min-height: 18px; font-weight: 600; }
-    .pf-msg.ok { color: var(--color-success); }
-    .pf-msg.err { color: var(--color-error); }
-  </style>
+        .pf-hero-info {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .pf-hero-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .pf-hero-meta {
+            font-size: 13px;
+            opacity: .95;
+            margin-top: 2px;
+        }
+
+        .pf-level-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            background: rgba(255,255,255,.2);
+            border: 1px solid rgba(255,255,255,.5);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .pf-balance {
+            text-align: right;
+        }
+
+        .pf-balance-num {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .pf-balance-label {
+            font-size: 12px;
+            opacity: .9;
+        }
+
+        .pf-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 720px) {
+            .pf-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pf-field {
+            margin-bottom: 14px;
+        }
+
+        .pf-readonly {
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-normal);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .pf-msg {
+            font-size: 13px;
+            margin-top: 8px;
+            min-height: 18px;
+            font-weight: 600;
+        }
+
+            .pf-msg.ok {
+                color: var(--color-success);
+            }
+
+            .pf-msg.err {
+                color: var(--color-error);
+            }
+    </style>
 </head>
 <body>
 
@@ -205,9 +273,9 @@
   </div>
 </footer>
 
-<script src="theme.js"></script>
-<script src="auth.js"></script>
-<script src="historyData.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/historyData.js"></script>
 <script>
 // Thông báo nổi (logout() trong auth.js sẽ tự dùng hàm này nếu có)
 function showNotification(message, type) {

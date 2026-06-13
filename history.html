@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -6,7 +6,7 @@
   <title>Lịch sử giao dịch — EGSP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="DoAnGame.css" />
+  <link rel="stylesheet" href="css/DoAnGame.css" />
 </head>
 <body>
 
@@ -71,7 +71,6 @@
   <!-- NOT LOGGED IN STATE -->
   <div id="notLoggedInState" style="display:none">
     <div class="card" style="text-align:center;padding:40px 20px;">
-      <div style="font-size:40px;margin-bottom:12px;">🔐</div>
       <div style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Vui lòng đăng nhập</div>
       <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Bạn cần đăng nhập để xem lịch sử giao dịch</p>
       <a href="login.html" class="btn-red" style="display:inline-block;text-decoration:none;padding:10px 24px;">Đăng nhập ngay</a>
@@ -150,9 +149,8 @@
         <tbody id="txTableBody"></tbody>
       </table>
       <div id="txEmpty" class="empty-state" style="display:none">
-        <div class="empty-icon">📋</div>
         <p>Chưa có giao dịch nào</p>
-        <a href="DoAnGame.html" style="color:var(--color-primary);font-size:13px;font-weight:600;">Nạp thẻ ngay →</a>
+        <a href="../DoAn/DoAnGame.html" style="color:var(--color-primary);font-size:13px;font-weight:600;">Nạp thẻ ngay →</a>
       </div>
     </div>
 
@@ -169,9 +167,9 @@
   </div>
 </footer>
 
-<script src="theme.js"></script>
-<script src="auth.js"></script>
-<script src="historyData.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/historyData.js"></script>
 <script>
 const GAME_DOT = { 'Liên Quân Mobile': 'lq', 'Free Fire': 'ff', 'FC Online VN': 'fc', 'Delta Force': 'df' };
 let allTransactions = [];
@@ -259,8 +257,8 @@ function renderTransactions(list) {
             const diff = tx.expiry - Date.now();
             const left = diff <= 0 ? 0 : Math.ceil(diff / 86400000);
             packSub = left > 0
-                ? `<div class="tx-sub-pack">🎫 ${tx.note || 'Gói tháng'} · còn ${left} ngày</div>`
-                : `<div class="tx-sub-pack expired">🎫 ${tx.note || 'Gói tháng'} · đã hết hạn</div>`;
+                ? `<div class="tx-sub-pack">${tx.note || 'Gói tháng'} · còn ${left} ngày</div>`
+                : `<div class="tx-sub-pack expired">${tx.note || 'Gói tháng'} · đã hết hạn</div>`;
         }
 
         return `<tr>
@@ -311,7 +309,7 @@ function resetFilters() {
     updateStats(allTransactions);
 }
 
-// doLogout()/logout() dùng chung từ auth.js
+
 </script>
 </body>
 </html>

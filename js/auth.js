@@ -1,8 +1,4 @@
-// ============================================
-// EGSP Gaming Hub - Authentication System
-// ============================================
 
-// Initialize demo accounts in localStorage on first load
 function initializeDemoAccounts() {
     const existingAccounts = localStorage.getItem('gameAccounts');
     if (!existingAccounts) {
@@ -196,7 +192,6 @@ function showError(message, errorElement) {
         errorElement.textContent = message;
         errorElement.style.display = 'block';
         
-        // Auto hide after 4 seconds
         setTimeout(() => {
             errorElement.style.display = 'none';
         }, 4000);
@@ -207,7 +202,7 @@ function generateSessionId() {
     return 'EGSP_' + Math.random().toString(36).substr(2, 9).toUpperCase() + Date.now();
 }
 
-// Quick login dengan demo accounts
+
 function quickLogin(provider) {
     if (provider === 'google') {
         const account = demoAccounts[0]; // Dùng tài khoản đầu tiên
@@ -222,10 +217,8 @@ function quickLogin(provider) {
     setTimeout(() => handleLogin(), 300);
 }
 
-// ============================================
 // Logout dùng chung cho TẤT CẢ các trang.
 // Có xác nhận; dùng thông báo đẹp nếu trang có showNotification().
-// ============================================
 function logout() {
     if (!confirm('Bạn có chắc chắn muốn đăng xuất?')) return;
 
@@ -241,16 +234,14 @@ function logout() {
     }
 }
 
-// Alias cho các trang đang gọi doLogout()
 function doLogout() { logout(); }
 
-// Get current user
+
 function getCurrentUser() {
     const userJson = localStorage.getItem('currentUser');
     return userJson ? JSON.parse(userJson) : null;
 }
 
-// Check if user is logged in
 function isUserLoggedIn() {
     return localStorage.getItem('isLoggedIn') === 'true';
 }

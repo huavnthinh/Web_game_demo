@@ -14,7 +14,7 @@ const AMOUNT_QTY = ['20', '40', '102', '204', '408', '1.020', '2.090'];
 // GÓI NẠP THÁNG (Monthly Pass) - mỗi game có ưu đãi khác biệt
 // basic = Gói Cơ Bản (125.000đ) · vip = Gói Cao Cấp/VIP (250.000đ)
 // ============================================
-const PACK_DAYS = 30; // Thời hạn mỗi gói (ngày)
+const PACK_DAYS = 30; 
 
 const MONTHLY_PACKAGES = {
     'Liên Quân Mobile': {
@@ -130,7 +130,6 @@ function initializeUserSession() {
         if (ddLoginItem) ddLoginItem.style.display = 'none';
         if (ddLogoutItem) ddLogoutItem.style.display = 'block';
 
-        // Step 1: show logged-in user info
         if (step1LoggedIn) {
             step1LoggedIn.style.display = 'block';
             const avatar = document.getElementById('step1Avatar');
@@ -192,8 +191,6 @@ function setupEventListeners() {
             }
         });
     }
-
-    // Close user menu when clicking outside
     document.addEventListener('click', (e) => {
         if (userMenu && userAvatar && !userMenu.contains(e.target) && !userAvatar.contains(e.target)) {
             userMenu.style.display = 'none';
@@ -215,7 +212,7 @@ function setupEventListeners() {
         });
     }
 
-    // Dropdown game item clicks → scroll to & select game
+
     const ddGameMap = {
         'Liên Quân Mobile': 0,
         'Free Fire': 1,
